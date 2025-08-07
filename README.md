@@ -5,6 +5,9 @@ Groupe 5: (Machine 2)
 
 IP : 54.38.29.76:3276
 
+Kanban : denis 
+https://miro.com/app/board/uXjVJWEBseo=/?passwordless_invite=
+
 https://marketplace.visualstudio.com/items?itemName=spryinno.kanpilot
 
 
