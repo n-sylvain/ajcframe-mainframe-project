@@ -3,7 +3,7 @@ Groupe 5: (Machine 2)
 - ADYEL        Anouar  API5 | API05
 - NI           Sylvain API6 | API06
 
-IP : 54.38.29.76:3279
+IP : 54.38.29.76:3276
 
 https://marketplace.visualstudio.com/items?itemName=spryinno.kanpilot
 
