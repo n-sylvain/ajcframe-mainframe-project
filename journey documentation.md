@@ -18,6 +18,10 @@ Jour 2:
   - Miro - Denis
 - point d'étape sur la compréhension du projet, partie 1, 2, 3
 - éclaircir le formattage de la facture - denis à raison
+- partie 3 - sylvain
+- partie 4 - denis
+- partie 1 & 2 - anouar
+
 
 Jour 3:
 
