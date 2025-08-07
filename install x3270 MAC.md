@@ -1,3 +1,10 @@
+cmd to open TSO:
+open -a XQuartz
+export DISPLAY=:0
+x3270 54.38.29.76:3276
+
+
+
 https://sourceforge.net/projects/x3270/
 
 Compilation de x3270 avec interface graphique X11 sur macOS
