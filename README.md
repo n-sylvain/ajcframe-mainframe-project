@@ -3,6 +3,8 @@ Groupe 5: (Machine 2)
 - ADYEL        Anouar  API5
 - NI           Sylvain API6
 
+IP : 54.38.29.76:3279
+
 
 git clone https://github.com/n-sylvain/ajcframe-mainframe-project.git
 
