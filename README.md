@@ -5,6 +5,8 @@ Groupe 5: (Machine 2)
 
 IP : 54.38.29.76:3279
 
+https://marketplace.visualstudio.com/items?itemName=spryinno.kanpilot
+
 
 git clone https://github.com/n-sylvain/ajcframe-mainframe-project.git
 
