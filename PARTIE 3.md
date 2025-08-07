@@ -1,24 +1,40 @@
-PARTIE 3 :
-    
-voir le tp08 cobol de steeve
+## PARTIE 3 : Génération de factures
 
-SQL
+### Objectifs
+- Générer une facture par commande
+- Exporter les données vers des fichiers dédiés
+- Formatage selon modèle imposé
 
-requête info d'une commande et l'intégrer dans 
-APIX.project.extract.data
-affichage de la facture en M.5
-et enregistrement des données de la factures dans
-APIX.project.factures.data
+### Fichiers de sortie
+1. **`PROJET.EXTRACT.DATA`** - Données extraites de la BDD (fichier indexé VSAM)
+2. **`PROJET.FACTURES.DATA`** - Factures formatées pour impression
 
+### Processus technique
+1. **Extraction des données**
+   ```sql
+   -- Requête SQL pour extraire infos utiles à la facturation
+   EXEC SQL ... 
+   ```
+   - Créer fichier indexé (VSAM) `PROJET.EXTRACT.DATA`
+   - Accès par clé client
+   - Données nécessaires : O_NO, O_DATE, DESCRIPTION, QUANTITY, PRICE
 
-extraire les infos utiles a la facturation par requete sql sur notre BDD (exec sql ... ) pour creer un fichier indexe (VSAM) projet.extract.data 
+2. **Génération factures**
+   - Affichage en M.5 (format terminal)
+   - Enregistrement formaté dans `PROJET.FACTURES.DATA`
+   - Une commande par page
+   - Formatage avec espaces, underscores, etc.
 
-a partir de ce fichier on peut y acceder avec la clé client et creer un fichier sequetiel avec seulement les infos de ce client en particulier necessaires a la facturation : O NO, O DATE, DESCRIPTION, QUANTITY, PRICE (le reste a voir plus tard notamment LNAME FNAME)
+### Contraintes techniques
+- Taux TVA défini en SYSIN
+- Programme de date en toutes lettres = sous-programme
+- Référence : **TP08 COBOL de Steve**
 
+### Tests
+- Vérification données pour une commande
+- Contrôle formatage facture
 
-tests: vérification données pour une commande
+### Questions en suspens
+- **Confirmé par Steve :** Le formatage complet de la facture doit être enregistré dans le fichier (avec cadres, espacements, etc.)
 
-
-question steeve :
-    - formatage facture à faire ?
-
+---

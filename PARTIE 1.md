@@ -1,32 +1,39 @@
-- liaison avec la partie 4 CICS
+## PARTIE 1 : Import des nouveaux produits
 
-1. Fichier PROJET.NEWPRODS.DATA
-2. Fichier PROJECT.TAUX.DATA
+### Objectifs
+- Traiter le fichier CSV `PROJET.NEWPRODS.DATA`
+- Insérer les nouveaux produits dans la base de données
+- Convertir les prix en dollars
+- Formater les descriptions (majuscule au début de chaque mot)
 
-1. NEWPRODS: alimenter avec les nouveaux produits
-    https://chatgpt.com/share/6894ae41-3714-800b-a02d-bf44dacd0b87
-    - transfert CSV vers mainframe 
-    - stocker dans un dataset USER.CSV.FILE
-    - indiquer dans le JCL le dataset pour l'intégrer dans le programme
-    - runner le programme cobol pour alimenter la table produit
-    - ajouter un programme de test (?) par exemple pas de doublon
-    - description majuscule/minuscule en utilisant les fonctions
+### Fichiers nécessaires
+1. **`PROJET.NEWPRODS.DATA`** - Fichier CSV des nouveaux produits
+2. **`PROJET.TAUX.DATA`** - Fichier des taux de conversion
 
+### Processus technique
+1. **Transfert CSV vers mainframe**
+   - Stocker dans un dataset `USER.CSV.FILE`
+   - Indiquer le dataset dans le JCL
+   - Runner le programme COBOL pour alimenter la table produit
 
-2. TAUX: alimenter avec les nouveaux taux
-Taux de conversion au sein d'un fichier ou SYSIN -> en fichier. On assume que l'utilisateur n'a pas la main.
-- créer un fichier taux
-- l'alimenter avec les différents taux
-- Base EUR
-- DO_DO = 1
-- DO_EU = 0,9
-- etc
-- dans le JCL, utiliser SYSIN pour alimenter les différents taux
-- si taux déjà présent, l'écraser
+2. **Gestion des taux de conversion**
+   - Créer un fichier taux externe (plus propre qu'en SYSIN)
+   - Base de référence : Dollar (DO_DO = 1)
+   - Exemples : DO_EU = 0.9, etc.
+   - Si taux déjà présent, l'écraser
 
+3. **Utilisation SYSIN dans JCL**
+   ```cobol
+   // Dans le JCL : conversions de devise via SYSIN
+   // À la fin : valeur absurde comme 00000000000000000
+   // COBOL : PERFORM UNTIL 00000000000 pour traiter les enregistrements SYSIN
+   ```
 
+### Tests
+- Vérification pas de doublons
+- Description correctement formatée (majuscule/minuscule)
+- Conversion des devises correcte
 
-dans le jcl au niveau du SYSIN : on mettra les conversion de devise
-à la fin on met une valeur absurde comme 00000000000000000
-
-on fait un perform until 00000000000 dans le cobol pour traiter les enregistrement du sysin
+### Liaison avec PARTIE 4 (CICS)
+- Interface permettra d'ajouter des nouveaux produits dans `PROJET.NEWPRODS.DATA`
+- Assurer la compatibilité entre la partie 1 et CICS

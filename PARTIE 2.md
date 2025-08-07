@@ -1,16 +1,23 @@
-PARTIE 2:
-    
-import des 2 fichiers ventes EU et AS
-alimentation des différentes bases :
-- orders
-- items puis products
-- customers
-- employees/depts (vérifier si c'est màj)
+## PARTIE 2 : Import des ventes
 
-vérifier l'existence des différentes bases
-vérifier le taux à utiliser
+### Objectifs
+- Importer 2 fichiers : `PROJET.VENTESEU.DATA` et `PROJET.VENTESAS.DATA`
+- Alimenter les différentes tables de la base de données
+- Calculer et mettre à jour la balance (chiffre d'affaires) des clients
 
-beaucoup d'alimentation avec INSERT, et calcul de la balance GROUP BY CUSTOMER
+### Tables à alimenter
+- **orders** - Commandes
+- **items** puis **products** - Articles
+- **customers** - Clients (calcul balance)
+- **employees/depts** - Employés/départements (vérifier si MAJ nécessaire)
 
-test : vérifier la bonne entrée d'une info pour chacune des bases, pas de doublons
+### Processus technique
+- Beaucoup d'instructions `INSERT INTO`
+- Calcul de la balance avec `GROUP BY CUSTOMER`
+- Vérifier l'existence des bases avant insertion
+- Vérifier les taux de conversion à utiliser
 
+### Tests
+- Vérifier la bonne entrée d'info pour chacune des bases
+- Contrôle des doublons
+- Validation des calculs de balance
