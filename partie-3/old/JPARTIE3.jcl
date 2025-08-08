@@ -1,0 +1,107 @@
+//API6P3   JOB (ACCT#),'SYLVAIN-P3',MSGCLASS=H,REGION=8M,
+//    CLASS=A,MSGLEVEL=(1,1),NOTIFY=&SYSUID,COND=(4,LT)
+//*
+//*  PARTIE 3 - GENERATION DE FACTURES
+//*  PROJET AJCFRAME - EQUIPE DENIS/SYLVAIN/ANOUAR
+//*
+//*================================================================
+//*  ETAPE 1: COMPILATION SOUS-PROGRAMME DATEUTIL
+//*================================================================
+//COMPDATE EXEC IGYWCL,PARM.COBOL=(NODYNAM,ADV,OBJECT,LIB,APOST)
+//COBOL.SYSIN  DD DSN=API6.SOURCE.COBOL(DATEUTIL),DISP=SHR
+//COBOL.SYSLIB DD DSN=CEE.SCEESAMP,DISP=SHR
+//*
+//*  LINKEDIT DATEUTIL
+//*
+//LKED.SYSLMOD DD DSN=API6.COBOL.LOAD,DISP=(SHR,KEEP,KEEP)
+//LKED.SYSIN DD *
+ NAME DATEUTIL(R)
+/*
+//*================================================================
+//*  ETAPE 2: COMPILATION PROGRAMME D'EXTRACTION
+//*================================================================
+//COMPEXT  EXEC IGYWCL,PARM.COBOL=(ADV,OBJECT,LIB,APOST,SQL)
+//COBOL.SYSIN  DD DSN=API6.SOURCE.COBOL(EXTRACT),DISP=SHR
+//COBOL.SYSLIB DD DSN=CEE.SCEESAMP,DISP=SHR
+//             DD DSN=SYS1.DB2.DSNHCOB,DISP=SHR
+//*
+//*  LINKEDIT EXTRACT
+//*
+//LKED.SYSLIB  DD DSN=SYS1.DB2.DSNHLOAD,DISP=SHR
+//             DD DSN=API6.COBOL.LOAD,DISP=SHR
+//LKED.SYSLMOD DD DSN=API6.COBOL.LOAD,DISP=(SHR,KEEP,KEEP)
+//LKED.SYSIN DD *
+ INCLUDE SYSLIB('DSNHLI')
+ NAME EXTRACT(R)
+/*
+//*================================================================
+//*  ETAPE 3: COMPILATION PROGRAMME GENERATION FACTURES
+//*================================================================
+//COMPFACT EXEC IGYWCL,PARM.COBOL=(ADV,OBJECT,LIB,APOST)
+//COBOL.SYSIN  DD DSN=API6.SOURCE.COBOL(GENEFACT),DISP=SHR
+//COBOL.SYSLIB DD DSN=CEE.SCEESAMP,DISP=SHR
+//*
+//*  LINKEDIT GENEFACT AVEC DATEUTIL
+//*
+//LKED.SYSLIB  DD DSN=API6.COBOL.LOAD,DISP=SHR
+//LKED.SYSLMOD DD DSN=API6.COBOL.LOAD,DISP=(SHR,KEEP,KEEP)
+//LKED.SYSIN DD *
+ INCLUDE SYSLIB('DATEUTIL')
+ NAME GENEFACT(R)
+/*
+//*================================================================
+//*  ETAPE 4: DEFINITION FICHIER VSAM EXTRACT
+//*================================================================
+//DEFVSAM  EXEC PGM=IDCAMS
+//SYSPRINT DD SYSOUT=*
+//SYSIN    DD *
+ DELETE PROJET.EXTRACT.DATA PURGE
+ SET MAXCC=0
+ 
+ DEFINE CLUSTER (NAME(PROJET.EXTRACT.DATA) -
+                INDEXED -
+                KEYS(3 0) -
+                RECORDSIZE(300 300) -
+                TRACKS(50 10) -
+                CISZ(4096) -
+                FREESPACE(10 5)) -
+        DATA (NAME(PROJET.EXTRACT.DATA.DATA)) -
+        INDEX (NAME(PROJET.EXTRACT.DATA.INDEX))
+/*
+//*================================================================
+//*  ETAPE 5: EXECUTION PROGRAMME D'EXTRACTION DB2
+//*================================================================
+//RUNEXT   EXEC PGM=IKJEFT01,DYNAMNBR=20,REGION=8M
+//STEPLIB  DD DSN=API6.COBOL.LOAD,DISP=SHR
+//         DD DSN=SYS1.DB2.DSNHLOAD,DISP=SHR
+//SYSTSPRT DD SYSOUT=*
+//SYSPRINT DD SYSOUT=*
+//SYSUDUMP DD SYSOUT=*
+//EXTRACT  DD DSN=PROJET.EXTRACT.DATA,DISP=SHR
+//SYSTSIN  DD *
+ DSN SYSTEM(DB2P)
+ RUN PROGRAM(EXTRACT) PLAN(API6PLAN) LIB('API6.COBOL.LOAD')
+ END
+/*
+//*================================================================
+//*  ETAPE 6: EXECUTION GENERATION DES FACTURES
+//*================================================================
+//RUNFACT  EXEC PGM=GENEFACT
+//STEPLIB  DD DSN=API6.COBOL.LOAD,DISP=SHR
+//EXTRACT  DD DSN=PROJET.EXTRACT.DATA,DISP=SHR
+//FACTURES DD DSN=PROJET.FACTURES.DATA,DISP=(NEW,CATLG,DELETE),
+//         DCB=(LRECL=80,RECFM=FB,BLKSIZE=800),
+//         SPACE=(TRK,(20,5),RLSE)
+//SYSOUT   DD SYSOUT=*
+//SYSIN    DD *
+0.055
+/*
+//*================================================================
+//*  ETAPE 7: IMPRESSION DES FACTURES (OPTIONNEL)
+//*================================================================
+//PRINT    EXEC PGM=IEBGENER
+//SYSPRINT DD SYSOUT=*
+//SYSUT1   DD DSN=PROJET.FACTURES.DATA,DISP=SHR
+//SYSUT2   DD SYSOUT=*
+//SYSIN    DD DUMMY
+/*
