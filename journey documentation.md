@@ -25,44 +25,70 @@ Jour 2:
 
 Jour 3:
 
-à faire: partie 4 et tests faut-il les développer ?
+daily scrum
+installation des bases
+- APIX.SOURCE.SQL.BDDORDER
+- APIX.SOURCE.SQL.BDDPARTS
+kanban màj par denis
+
+### État d’avancement du projet
+
+- Débrief terminé hier - clarification sur chaque partie du projet
+- Points d’interprétation différents résolus
+- Notes mises à jour dans le repos Git
+- Attribution des parties :
+  - Partie 3 : Sylvainni007
+  - Partie 4 : Denis
+  - Parties 1 et 2 : Arnaud
+
+### Objectifs journée
+
+- Sylvainni007 : Focus total sur partie 3
+  - Relecture détaillée des notes
+  - Exercice existant identifié par Denis
+  - Objectif : quelque chose qui tourne avant pause estivale
+- Denis : Conversion fichier employé
+  - Maps physiques préparées (interface connexion + saisie nouvelles pièces)
+  - Conversion fichier séquentiel vers KSDS pour CICS
+  - Installation via CEDA/SEDADEF
+  - Développement programme COBOL vérification connexion
+- Arnaud : Création bases de données
+  - Configuration via SPUFFY (M.16)
+  - Questions sur fichiers orders vs parts
+
+### Configuration bases de données
+
+- Transfert fichiers BDD via interface x3270
+- Tables créées avec succès :
+  - BDD.PARTS : P1 à P5 (stock pièces de rechange)
+  - BDD.ORDERS : commandes clients
+- Problème résolu pour Denis : table customer pré-existante
+- Tous les participants ont maintenant bases identiques
+
+### Problèmes techniques résolus
+
+- Difficultés copier-coller terminal Mac d’Arnaud
+  - Solution : transfert fichiers via x3270
+  - Éviter risques erreurs sur code long (>20 lignes)
+- Configuration écran TSO variable selon utilisateurs
+- API différentes nécessitent adaptation des scripts
+
+### Coordination équipe
+
+- Test réussi partage d’écran simultané Discord
+- Décision : rester sur Discord pour communication
+- Support mutuel pour blocages techniques
+- Rappel : rester connecté sur AGC pour décompte temps
 
 
 
 
 
 
-- Lire et résumer le PDF dans docs/description_projet.md
-- faire le mental model pour les différentes parties, les connexions, et trouver les exercises/codes correspondants
-- Définir les rôles dans le groupe
-- Créer un diagramme fonctionnel ou un dataflow
-- Recréer les tables dans un script SQL propre (sql/)
-- Répertorier les fichiers d’entrée/sortie + contraintes de chaque partie
-
-compte-rendu jour 2:
-- 
 
 
 
 
-
-Si possible:
-
-
-
-
-
-
-
-
-
-🗓️ 2. Plan de travail : Jours 1 et 2
-🔹 Jour 1 – Compréhension & Préparation
-Objectifs : Comprendre le besoin métier et technique, organiser le travail
-
-✅ Tâches à faire :
- 
- Étudier les fichiers .TXT (NEWPRODS, VENTEAS, VENTEEU)
 
 
 🔹 Jour 2 – Début du Développement Partie 1 (NEWPRODS)
