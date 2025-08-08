@@ -10,6 +10,13 @@
 - **Kanban :** https://miro.com/app/board/uXjVJWEBseo=/?passwordless_invite=
 - **Repository :** https://github.com/n-sylvain/ajcframe-mainframe-project.git
 
+CMD pour Mac
+```
+open -a XQuartz                   
+export DISPLAY=:0
+x3270 54.38.29.76:3276
+```
+
 ## Configuration Git
 ```bash
 git clone https://github.com/n-sylvain/ajcframe-mainframe-project.git
