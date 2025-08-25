@@ -12,7 +12,7 @@
 
 CMD pour Mac
 ```
-open -a XQuartz                   
+open -a XQuartz
 export DISPLAY=:0
 x3270 54.38.29.76:3276
 ```
