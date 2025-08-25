@@ -38,3 +38,23 @@
 - **Confirmé par Steve :** Le formatage complet de la facture doit être enregistré dans le fichier (avec cadres, espacements, etc.)
 
 ---
+
+
+
+
+dayofweek, accept en cobol
+
+squelette programme
+https://claude.ai/chat/a46d5e33-0aca-41d2-89a4-8fdf7cf20d93
+
+
+8/8/2025 :
+- l'appel au sous programme fonctionne
+- le renvoi fonctionne
+- la compilation fonctionne
+- l'exécution fonctionne
+
+à faire
+- renommer les programmes dans TSO et ici
+- merger les JCL à la fin
+
