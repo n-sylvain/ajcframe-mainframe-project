@@ -83,6 +83,61 @@ kanban màj par denis
 
 
 
+Absolument. Voici un résumé de la réunion structuré selon les principes agiles.
+
+---
+
+### **Compte-rendu de Réunion Agile**
+
+**Titre de la réunion :** Reprise du projet et stratégie d'utilisation des IA
+**Date :** 25 Août
+**Participants :** Denis, Léa, Sylvain (Anor ?)
+**Scrum Master / Équipe :** L'équipe de développement
+
+---
+
+#### 1. **Événements marquants / Progrès (Done)**
+*   **Léa** a finalisé et intégré un sous-programme complexe en COBOL pour formater la date en toutes lettres (jour de la semaine, mois, etc.), une fonctionnalité critique pour la génération des factures (Partie 3).
+*   **Denis** a avancé sur le projet pendant les vacances et a identifié des défis avec les suggestions d'IA.
+
+#### 2. **Planification (To Do)**
+Les priorités pour la journée/semaine sont :
+*   **Léa :** Terminer la Partie 3 (Factures) en récupérant et en formatant toutes les informations de commande, puis l'enregistrer dans le fichier `projet-facture.data`.
+*   **Sylvain/Anor :** Se remettre dans le bain et commencer à travailler sur les Parties 1 et 2.
+*   **Équipe :** Se préparer à implémenter des tests unitaires (ex: fonction de mise en majuscule) la semaine prochaine, comme anticipé par Denis.
+
+#### 3. **Problèmes / Obstacles (Blockers)**
+*   **Problèmes techniques :** Connexion audio instable et latence pendant la réunion.
+*   **Bruit :** Le micro de Denis capte beaucoup de bruits de clavier, ce qui perturbe la concentration.
+*   **Reprise difficile :** Sentiment général d'avoir "tout oublié" après la pause vacances. Besoin d'une période de remise à niveau.
+*   **Outils IA :** Les modèles comme ChatGPT donnent parfois de mauvaises pistes ou des réponses dégradées. La limite de contexte des versions gratuites (Claude, ChatGPT) est un frein pour les questions techniques complexes.
+*   **Clarté technique :** Incertitude sur la façon de structurer le fichier de sortie des factures (une ligne par facture ou par résultat ?).
+
+#### 4. **Décisions prises**
+*   **Stratégie d'utilisation des IA :**
+    *   Utiliser **Claude** pour les questions techniques complexes (code).
+    *   Utiliser **ChatGPT** pour les demandes plus simples.
+    *   Les prompts doivent être très précis pour être efficaces.
+*   **Point de synchronisation :** Un point de sync. agile sera organisé en fin de matinée pour faire un état des lieux des progrès.
+*   **Gestion des batches (Partie 4) :** Clarification reçue : il faut créer un programme COBOL qui lit un fichier hebdomadaire (`new-part`) et en ajoute le contenu à la table `parts` en base de données. Ce n'est pas une tâche automatique du système.
+
+#### 5. **Actions et Responsables**
+| Action | Responsable | Délai |
+| :--- | :--- | :--- |
+| Se remettre dans le bain et avancer sur les Parties 1 & 2 | Sylvain/Anor | Journalier |
+| Finaliser la récupération des données pour la Partie 3 | Léa | Journalier |
+| Pousser le code de la Partie 3 sur le dépôt Git | Léa | ASAP |
+| Organiser un point de sync. en fin de matinée | Tous | Aujourd'hui |
+| Préparer une session sur les tests unitaires | Denis/Steve | Semaine prochaine |
+
+---
+
+#### **Notes additionnelles :**
+*   **Disponibilités :** Denis sera absent de 16h00 à 16h20.
+*   **Prochain point :** Un point général avec Steve est prévu dans l'après-midi.
+*   **Ambiance :** L'équipe est motivée malgré la difficulté de la reprise et les problèmes techniques.
+
+
 
 
 
