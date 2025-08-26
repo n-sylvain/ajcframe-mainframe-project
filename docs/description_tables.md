@@ -62,7 +62,7 @@
 | Champ    | Type   | Clé                     |
 | -------- | ------ | ----------------------- |
 | `O_NO`   | DEC(3) | 🔑 PK                   |
-| `E_NO`   | DEC(4) | 🔗 FK → EMPLOYEES.E\_NO |
+| `S_NO`   | DEC(4) | 🔗 FK → EMPLOYEES.E\_NO |
 | `C_NO`   | DEC(4) | 🔗 FK → CUSTOMERS.C\_NO |
 | `O_DATE` | DATE   |                         |
 
