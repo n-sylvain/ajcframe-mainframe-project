@@ -140,6 +140,46 @@ Les priorités pour la journée/semaine sont :
 
 
 
+26/8 - 
+Absolument. Voici un résumé agile de cette conversation, structuré pour un stand-up meeting.
+
+### **Résumé de la Réunion (Style Stand-up Agile)**
+
+**Date:** 26 Août
+**Projet:** Développement SQL et Intégration de données
+**Participants:** Moi (Sylvain), Arnaud, Denis, Steve (mentor)
+
+---
+
+#### **1. Ce qui a été fait depuis la dernière fois (Sylvain)**
+*   Récupération réussie des données depuis les tables DB2 (n° de commande, employé, client) via une requête SQL.
+*   Implémentation d'un curseur pour fetcher les données et les enregistrer dans un fichier séquentiel, après validation de l'approche par Steve.
+*   **Progression globale:** La partie "extraction" de la tâche 3 est terminée.
+
+#### **2. Objectifs du jour / Prochaines étapes**
+
+*   **Sylvain (Tâche 3):** Finaliser le formatage des factures et les enregistrer dans le fichier `facture_data`. Estime que cette partie devrait être rapide.
+*   **Arnaud (Tâches 1 & 2):** Comprendre comment créer un fichier séquentiel à partir d'un CSV et intégrer les données en vérifiant les doublons. Doit aller voir Steve pour être débloqué sur le point de départ.
+*   **Denis (Partie CICS):** Se concentrer sur le débogage de ses programmes CICS (problèmes de "zones mémoires fantômes", versions qui persistent). Avance lentement et trouve le processus fastidieux.
+
+#### **3. Blocages / Impédiments**
+
+*   **Arnaud:** Bloqué au démarrage des tâches 1 et 2. Se sent en panique et a l'impression d'avoir tout oublié. **Besoin:** Une session avec Steve pour obtenir des directives claires.
+*   **Denis:** Bloqué par des problèmes techniques complexes sur CICS (manque de familiarité, problèmes de désinstallation des programmes). Son setup matériel/Mac est une contrainte majeure (pas d'import/export facile vers TSO, doit passer par d'autres pour transférer le code).
+*   **Risque général:** La lenteur globale de progression fait craindre de ne pas pouvoir terminer à temps. La communication (problèmes Discord hier) et les setups techniques sont des points de friction.
+
+#### **4. Actions & Coordination d'équipe**
+
+*   **Sylvain** reste concentré sur sa tâche (3) pour la terminer au plus vite, puis se rendra disponible pour aider Arnaud et Denis.
+*   **Arnaud** va préparer des questions précises et voir Steve individuellement pour se débloquer.
+*   **Point de sync prévu** en fin de matinée pour faire un récapitulatif de la progression et des blocages après la session avec Steve.
+*   **Denis** continue de chercher des solutions de son côté en attendant le renfort de Sylvain.
+
+**Note d'ambiance:** L'équipe est stressée et rencontre des difficultés techniques importantes, mais essaye de rester positive et solidaire ("on ne te laissera pas tomber").
+
+
+
+
 
 
 
