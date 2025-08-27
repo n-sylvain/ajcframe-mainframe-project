@@ -34,6 +34,14 @@
            05 WS-DESCRIPTION   PIC X(20).
            05 WS-PRIX          PIC X(10).
            05 WS-DEVISE        PIC X(2).
+
+      ** Variables pour le formatage de la description
+       77 WS-MAJUSCULES  PIC X(26) VALUE "ABCDEFGHIJKLMNOPQRSTUVWXYZ".
+       77 WS-MINUSCULES  PIC X(26) VALUE "abcdefghijklmnopqrstuvwxyz".
+       77 WS-IDX         PIC 99 VALUE 0.
+       77 WS-POS         PIC 99 VALUE 0.
+       77 WS-PREV-CHAR   PIC X VALUE SPACE.
+       77 WS-CHAR        PIC X.
       
        PROCEDURE DIVISION.
       
@@ -77,6 +85,7 @@
       *    * Extraction de la description (2ème champ)  
            PERFORM TROUVE-CHAMP
            MOVE LIGNE-NEWPRODS(WS-DEBUT:WS-LONGUEUR) TO WS-DESCRIPTION
+           PERFORM FORMATE-DESCRIPTION
            
       *    * Extraction du prix (3ème champ)
            PERFORM TROUVE-CHAMP
@@ -126,3 +135,38 @@
                DISPLAY "FIN DE FICHIER NEWPRODS - FS : ", FS-NEWPRODS
                MOVE 1 TO FF-NEWPRODS
            END-READ.
+
+       FORMATE-DESCRIPTION.
+           MOVE SPACE TO WS-PREV-CHAR
+       
+           PERFORM VARYING WS-IDX FROM 1 BY 1
+               UNTIL WS-IDX > FUNCTION LENGTH(WS-DESCRIPTION)
+       
+               MOVE WS-DESCRIPTION(WS-IDX:1) TO WS-CHAR
+       
+      *       *--- Tout passer en minuscules ---
+               MOVE 0 TO WS-POS
+               PERFORM VARYING WS-POS FROM 1 BY 1 UNTIL WS-POS > 26
+                   IF WS-CHAR = WS-MAJUSCULES(WS-POS:1)
+                       MOVE WS-MINUSCULES(WS-POS:1) TO WS-CHAR
+                       MOVE 99 TO WS-POS
+                   END-IF
+               END-PERFORM
+       
+      *       *--- Majuscule si début de mot ---
+               IF WS-PREV-CHAR = SPACE
+                   MOVE 0 TO WS-POS
+                   PERFORM VARYING WS-POS FROM 1 BY 1 UNTIL WS-POS > 26
+                       IF WS-CHAR = WS-MINUSCULES(WS-POS:1)
+                           MOVE WS-MAJUSCULES(WS-POS:1) TO WS-CHAR
+                           MOVE 99 TO WS-POS
+                       END-IF
+                   END-PERFORM
+               END-IF
+       
+               MOVE WS-CHAR TO WS-DESCRIPTION(WS-IDX:1)
+               MOVE WS-CHAR TO WS-PREV-CHAR
+           END-PERFORM
+           .
+
+      
