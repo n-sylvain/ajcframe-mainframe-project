@@ -68,10 +68,6 @@
        
       ** Variables pour traitement des taux
        77 WS-TAUX-ALPHA    PIC X(10).
-       77 WS-VIRGULE-POS   PIC 99.
-       77 WS-PARTIE-ENT    PIC X(5).
-       77 WS-PARTIE-DEC    PIC X(5).
-       77 WS-TAUX-TEMP     PIC X(10).
       
        PROCEDURE DIVISION.
       
@@ -124,75 +120,18 @@
            .
 
        DECOUPE-TAUX.
-           MOVE 1 TO WS-POSITION
-           MOVE 1 TO WS-DEBUT
-           
-      *    * Extraction de la devise (1er champ)
-           PERFORM TROUVE-CHAMP-TAUX
-           MOVE LIGNE-TAUX(WS-DEBUT:WS-LONGUEUR) 
-               TO WS-CODE-DEV(WS-NB-TAUX)
-           
-      *    * Extraction du taux (2ème champ)
-           PERFORM TROUVE-CHAMP-TAUX
-           MOVE LIGNE-TAUX(WS-DEBUT:WS-LONGUEUR) TO WS-TAUX-ALPHA
-           
-      *    * Conversion du taux décimal en numérique
-           PERFORM CONVERTIT-TAUX
-           
+      *    * Extraction devise (1er champ)
+           MOVE LIGNE-TAUX(1:2) TO WS-CODE-DEV(WS-NB-TAUX)
+       
+      *    * Extraction taux (2ème champ)
+           MOVE LIGNE-TAUX(4:17) TO WS-TAUX-ALPHA
+       
+      *    * Conversion directe en numérique avec DECIMAL-POINT IS COMMA
+           COMPUTE WS-TAUX-CHG(WS-NB-TAUX) =
+                                         FUNCTION NUMVAL(WS-TAUX-ALPHA)
+       
            DISPLAY "DEVISE : ", WS-CODE-DEV(WS-NB-TAUX),
                    "  - TAUX : ", WS-TAUX-CHG(WS-NB-TAUX)
-           .
-
-       CONVERTIT-TAUX.
-      *    * Traitement manuel de la conversion décimale
-           MOVE SPACES TO WS-PARTIE-ENT
-           MOVE SPACES TO WS-PARTIE-DEC
-           MOVE 0 TO WS-VIRGULE-POS
-           
-      *    * Cherche la position de la virgule
-           PERFORM VARYING WS-IDX FROM 1 BY 1
-               UNTIL WS-IDX > 10 OR WS-TAUX-ALPHA(WS-IDX:1) = ","
-                  OR WS-TAUX-ALPHA(WS-IDX:1) = SPACE
-               IF WS-TAUX-ALPHA(WS-IDX:1) = "," THEN
-                   MOVE WS-IDX TO WS-VIRGULE-POS
-               END-IF
-           END-PERFORM
-           
-           IF WS-VIRGULE-POS > 0 THEN
-      *        * Il y a une virgule - séparer partie entière et décimale
-               MOVE WS-TAUX-ALPHA(1:WS-VIRGULE-POS - 1) TO WS-PARTIE-ENT
-               MOVE WS-TAUX-ALPHA(WS-VIRGULE-POS + 1:5) TO WS-PARTIE-DEC
-           ELSE
-      *        * Pas de virgule - nombre entier
-               MOVE WS-TAUX-ALPHA TO WS-PARTIE-ENT
-               MOVE "00000" TO WS-PARTIE-DEC
-           END-IF
-           
-      *    * Construction du nombre formaté pour COBOL
-           STRING WS-PARTIE-ENT DELIMITED BY SPACE
-                  WS-PARTIE-DEC DELIMITED BY SPACE
-                  INTO WS-TAUX-TEMP
-           END-STRING
-           
-      *    * Conversion directe en numérique
-           MOVE WS-TAUX-TEMP TO WS-TAUX-CHG(WS-NB-TAUX)
-           .
-
-       TROUVE-CHAMP-TAUX.
-           MOVE ZERO TO WS-LONGUEUR
-           MOVE WS-POSITION TO WS-DEBUT
-           
-      *    * Cherche le prochain point-virgule
-           PERFORM VARYING WS-POSITION FROM WS-POSITION BY 1 
-               UNTIL WS-POSITION > 20
-                  OR LIGNE-TAUX(WS-POSITION:1) = ";"
-               ADD 1 TO WS-LONGUEUR
-           END-PERFORM
-           
-      *    * Passe le point-virgule pour le champ suivant
-           IF WS-POSITION <= 20 THEN
-               ADD 1 TO WS-POSITION
-           END-IF
            .
 
        CONVERSION-PRIX.
