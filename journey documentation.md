@@ -180,6 +180,66 @@ Absolument. Voici un résumé agile de cette conversation, structuré pour un st
 
 
 
+---
+
+Absolument ! Voici un résumé agile de cette réunion, structuré pour être clair et actionnable.
+
+### Résumé de la Réunion du 27 Août - Format Agile
+
+**Sujet :** Point d'avancement sur le Projet COBOL (Partie 3) et coordination de l'équipe.
+
+---
+
+#### 1. 🟢 Suivi d'Avancement (What's Done)
+
+*   **Partie 3 (Génération de factures) est quasiment terminée et fonctionnelle.**
+    *   **Sébastien** a présenté une démo live :
+        *   Le programme `EXTRACT` exécute une grande jointure SQL via un curseur et produit un fichier de données.
+        *   Le programme `FACTURE` formate les données en factures avec un cadre, gère les calculs (décimaux, TVA) et appelle un sous-programme pour la date en toutes lettres.
+        *   Le sous-programme `DATEFMT` utilise l'algorithme de congruence de Zeller pour convertir une date en jour de la semaine (ex: "Mercredi 1 janvier 2025").
+    *   Le code est déjà poussé sur **GitHub** et documenté.
+    *   **Prochaine action :** Finaliser les tests unitaires (notamment sur `DATEFMT`).
+
+#### 2. 🟡 Défis & Blocages (Blockers)
+
+*   **Outils IA (Claude, ChatGPT) :** Ils sont indispensables mais doivent être utilisés stratégiquement.
+    *   **Problème :** Ils proposent parfois du code utilisant des fonctions non supportées par la version COBOL de l'environnement TSO (ex: `PROCEDURE DIVISION MAIN LOGIC`).
+    *   **Solution :** Validation manuelle et débogage étape par étape sont nécessaires. Combinaison de plusieurs IA (Claude pour l'architecture, ChatGPT pour le débogage ponctuel).
+*   **Limites des comptes IA :** Les comptes gratuits (notamment Claude) ont des limites de prompts, ce qui nécessite une planification.
+*   **Partie 1 (Mise à jour de la base de données) :** **Anwar** est bloqué sur l'interprétation de l'énoncé.
+    *   **Blocage :** La priorité n'est pas de formater le fichier CSV d'entrée, mais de traiter ses données ligne par ligne avec des requêtes SQL pour mettre à jour la base.
+
+#### 3. 📊 Démonstration & Livrables (Demo)
+
+*   **Démo réussie** de la partie 3 :
+    1.  Suppression du fichier extract existant.
+    2.  Exécution du programme `EXTRACT` pour générer de nouvelles données.
+    3.  Exécution du programme `FACTURE` avec un paramètre de TVA pour générer le fichier de factures formaté.
+*   **Diagramme de flux (Mermaid)** généré par Claude pour la documentation et la future présentation.
+
+#### 4. ➡️ Prochaines Étapes (Next Steps)
+
+| Qui? | Quoi? | Quand? |
+| :--- | :--- | :--- |
+| **Sébastien** | Basculer sur la **Partie 1** pour aider Anwar à débloquer la mise à jour de la BDD. | Aujourd'hui (après 10h15) |
+| **Anwar** | Partager avec Sébastien les retours précis de Steve sur l'approche SQL pour la Partie 1. | ASAP |
+| **Toute l'équipe** | Examiner le code de la Partie 3 sur GitHub et poser des questions. | Cette semaine |
+| **Toute l'équipe** | Commencer à préparer la **structure de la présentation** (en utilisant le diagramme et les notes générées). | Vendredi |
+
+#### 5. 💡 Rétrospective / Apprentissages (Learnings)
+
+*   **Stratégie IA confirmée :** Claude est meilleur pour l'architecture et la compréhension du code, ChatGPT pour le débogage ponctuel.
+*   **Approche de développement :** Mieux vaut avoir un code fonctionnel ("qui marche") en premier, puis l'optimiser et le rendre plus élégant dans un second temps.
+*   **Communication :** Le partage d'écran et les démos live sont très efficaces pour se synchroniser.
+
+
+
+
+
+
+
+
+
 
 
 
