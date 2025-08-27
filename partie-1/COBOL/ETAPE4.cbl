@@ -16,31 +16,55 @@
        FILE SECTION.
        FD NEWPRODS.
        01 ENR-NEWPRODS.
-           05 LIGNE-NEWPRODS    PIC X(100).
+           05 LIGNE-NEWPRODS    PIC X(45).
 
        WORKING-STORAGE SECTION.
        77 FS-NEWPRODS      PIC 99.
        77 FF-NEWPRODS      PIC 9 VALUE ZERO.
+       77 FS-TAUX          PIC 99.
+       77 FF-TAUX          PIC 9 VALUE ZERO.
        77 WS-COMPTEUR      PIC 9(5) VALUE ZERO.
+
+      ** Variables pour découpage CSV
+       77 WS-POSITION      PIC 99 VALUE 1.
+       77 WS-DEBUT         PIC 99 VALUE 1.
+       77 WS-LONGUEUR      PIC 99 VALUE ZERO.
 
       * Champs produits
        01 WS-PRODUIT.
            05 WS-NUMERO        PIC X(10).
-           05 WS-DESCRIPTION   PIC X(50).
-           05 WS-PRIX          PIC X(15).
+           05 WS-DESCRIPTION   PIC X(20).
+           05 WS-PRIX          PIC X(10).
            05 WS-DEVISE        PIC X(3).
 
+      *> prix en devise locale/en USD    
        77 WS-PRIX-NUM     PIC 9(7)V99 VALUE 0.   
        77 WS-PRIX-USD     PIC 9(7)V99 VALUE 0.
+       77 WS-I            PIC 99 VALUE 0.
+       77 WS-PRIX-FORMATE PIC ZZZ.ZZZ.ZZ9,99.
+
+      ** Variables pour le formatage de la description
+       77 WS-MAJUSCULES  PIC X(26) VALUE "ABCDEFGHIJKLMNOPQRSTUVWXYZ".
+       77 WS-MINUSCULES  PIC X(26) VALUE "abcdefghijklmnopqrstuvwxyz".
+       77 WS-IDX         PIC 99 VALUE 0.
+       77 WS-POS         PIC 99 VALUE 0.
+       77 WS-PREV-CHAR   PIC X VALUE SPACE.
+       77 WS-CHAR        PIC X.
+
+      ** Variables pour la recherche de taux
+       77 WS-CODE-DEV-LU   PIC X(3).
+       77 WS-TAUX-LU       PIC X(10).
+       77 WS-TAUX-NUM      PIC 9(3)V9(5).
+       77 WS-DEVISE-TROUVE PIC X VALUE 'N'.
 
       * SQL communication area obligatoire
        EXEC SQL INCLUDE SQLCA END-EXEC.
 
       * Variables hôtes pour DB2
        EXEC SQL BEGIN DECLARE SECTION END-EXEC.
-       01 HST-NUMERO      PIC X(10).
+       01 HST-P-NO      PIC X(10).
        01 HST-DESCRIPTION PIC X(50).
-       01 HST-PRIX-USD    PIC S9(7)V99 COMP-3.
+       01 HST-PRICE    PIC S9(7)V99 COMP-3.
        EXEC SQL END DECLARE SECTION END-EXEC.
 
        PROCEDURE DIVISION.
@@ -61,23 +85,23 @@
                PERFORM RECHERCHE-TAUX-DEVISE
 
       *    Chargement des variables hôtes
-               MOVE WS-NUMERO      TO HST-NUMERO
+               MOVE WS-NUMERO      TO HST-P-NO
                MOVE WS-DESCRIPTION TO HST-DESCRIPTION
-               MOVE WS-PRIX-USD    TO HST-PRIX-USD
+               MOVE WS-PRIX-USD    TO HST-PRICE
 
       *    Mise à jour / insertion dans DB2
                EXEC SQL
-                   MERGE INTO PRODUITS P
-                   USING (VALUES (:HST-NUMERO,
+                   MERGE INTO API5.PRODUCTS AS P
+                   USING (VALUES (:HST-P-NO,
                                   :HST-DESCRIPTION,
-                                  :HST-PRIX-USD)) AS N(NUM, DESCR, PRIX)
-                   ON P.NUMERO_PRODUIT = N.NUM
+                                  :HST-PRICE)) AS N(PNO, DESCR, PRC)
+                   ON P.P_NO = N.PNO
                    WHEN MATCHED THEN
                        UPDATE SET DESCRIPTION = N.DESCR,
-                                  PRIX_USD     = N.PRIX
+                                  PRICE     = N.PRC
                    WHEN NOT MATCHED THEN
-                       INSERT (NUMERO_PRODUIT, DESCRIPTION, PRIX_USD)
-                       VALUES (N.NUM, N.DESCR, N.PRIX)
+                       INSERT (P_NO, DESCRIPTION, PRICE)
+                       VALUES (N.PNO, N.DESCR, N.PRC)
                END-EXEC
 
                IF SQLCODE NOT = 0
