@@ -1,0 +1,85 @@
+       01  A5MAPTI.
+           02  FILLER PIC X(12).
+           02  DATEJL    COMP  PIC  S9(4).
+           02  DATEJF    PICTURE X.
+           02  FILLER REDEFINES DATEJF.
+             03 DATEJA    PICTURE X.
+           02  FILLER   PICTURE X(1).
+           02  DATEJI  PIC X(10).
+           02  PGMNAMEL    COMP  PIC  S9(4).
+           02  PGMNAMEF    PICTURE X.
+           02  FILLER REDEFINES PGMNAMEF.
+             03 PGMNAMEA    PICTURE X.
+           02  FILLER   PICTURE X(1).
+           02  PGMNAMEI  PIC X(9).
+           02  TRNNAMEL    COMP  PIC  S9(4).
+           02  TRNNAMEF    PICTURE X.
+           02  FILLER REDEFINES TRNNAMEF.
+             03 TRNNAMEA    PICTURE X.
+           02  FILLER   PICTURE X(1).
+           02  TRNNAMEI  PIC X(7).
+           02  HEUREL    COMP  PIC  S9(4).
+           02  HEUREF    PICTURE X.
+           02  FILLER REDEFINES HEUREF.
+             03 HEUREA    PICTURE X.
+           02  FILLER   PICTURE X(1).
+           02  HEUREI  PIC X(8).
+           02  NUM1L    COMP  PIC  S9(4).
+           02  NUM1F    PICTURE X.
+           02  FILLER REDEFINES NUM1F.
+             03 NUM1A    PICTURE X.
+           02  FILLER   PICTURE X(1).
+           02  NUM1I  PIC 9(9).
+           02  IDL    COMP  PIC  S9(4).
+           02  IDF    PICTURE X.
+           02  FILLER REDEFINES IDF.
+             03 IDA    PICTURE X.
+           02  FILLER   PICTURE X(1).
+           02  IDI  PIC 9(2).
+           02  NOML    COMP  PIC  S9(4).
+           02  NOMF    PICTURE X.
+           02  FILLER REDEFINES NOMF.
+             03 NOMA    PICTURE X.
+           02  FILLER   PICTURE X(1).
+           02  NOMI  PIC X(30).
+           02  COULL    COMP  PIC  S9(4).
+           02  COULF    PICTURE X.
+           02  FILLER REDEFINES COULF.
+             03 COULA    PICTURE X.
+           02  FILLER   PICTURE X(1).
+           02  COULI  PIC X(20).
+           02  POIDSL    COMP  PIC  S9(4).
+           02  POIDSF    PICTURE X.
+           02  FILLER REDEFINES POIDSF.
+             03 POIDSA    PICTURE X.
+           02  FILLER   PICTURE X(1).
+           02  POIDSI  PIC 9(2).
+       01  A5MAPTO REDEFINES A5MAPTI.
+           02  FILLER PIC X(12).
+           02  FILLER PICTURE X(3).
+           02  DATEJC    PICTURE X.
+           02  DATEJO  PIC X(10).
+           02  FILLER PICTURE X(3).
+           02  PGMNAMEC    PICTURE X.
+           02  PGMNAMEO  PIC X(9).
+           02  FILLER PICTURE X(3).
+           02  TRNNAMEC    PICTURE X.
+           02  TRNNAMEO  PIC X(7).
+           02  FILLER PICTURE X(3).
+           02  HEUREC    PICTURE X.
+           02  HEUREO  PIC X(8).
+           02  FILLER PICTURE X(3).
+           02  NUM1C    PICTURE X.
+           02  NUM1O PIC Z(9).
+           02  FILLER PICTURE X(3).
+           02  IDC    PICTURE X.
+           02  IDO PIC Z(2).
+           02  FILLER PICTURE X(3).
+           02  NOMC    PICTURE X.
+           02  NOMO PIC X(30).
+           02  FILLER PICTURE X(3).
+           02  COULC    PICTURE X.
+           02  COULO PIC X(20).
+           02  FILLER PICTURE X(3).
+           02  POIDSC    PICTURE X.
+           02  POIDSO PIC Z(2).
