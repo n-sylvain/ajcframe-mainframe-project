@@ -1,0 +1,47 @@
+
+IDENTIFICATION DIVISION.
+PROGRAM-ID. EXDB01.
+
+DATA DIVISION.
+
+WORKING-STORAGE SECTION.
+    
+    EXEC SQL
+        INCLUDE SQLCA
+    END-EXEC.
+
+------------------------------------------------------------
+    EXEC SQL
+        DECLARE PRODUCTS TABLE
+        (
+            P_NO            CHAR(3) NOT NULL,
+            DESCRIPTION     VARCHAR(30) NOT NULL,
+            PRICE           DECIMAL(5, 2) NOT NULL
+        )
+    END-EXEC.
+
+
+* PAGE 44 - COMPATIBILITE DES TYPES SQL - COBOL
+* HOST-VARIABLES
+01 ST-PROD.
+    05 PROD-P-NO    PIC X(3).
+    05 PROD-DESCRIPTION.
+        49 PROD-DESCRIPTION-LEN  PIC S9(4) COMP. 
+        49 PROD-DESCRIPTION-TEXT PIC X(30).
+    05 PROD-PRICE   PIC S9(3)V99 COMP-3.    
+-------------------------------------------------------------
+
+    EXEC SQL
+        INCLUDE PROD
+    END-EXEC.
+    
+
+PROCEDURE DIVISION.
+
+
+    
+
+
+
+STOP RUN.
+

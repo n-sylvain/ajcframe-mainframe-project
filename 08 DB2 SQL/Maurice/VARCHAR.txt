@@ -1,0 +1,25 @@
+Traiter une colonne VARCHAR en cobol
+*****************************************
+Rappel 
+
+Une colonne définie en VARCHAR est générée par DCLGEN comme cette colonne ID-MARQUE :
+...
+  ID_MARQUE                      VARCHAR(2),
+
+...
+ 10 W-ID-MARQUE.                                          
+                    ID_MARQUE LENGTH                      
+    49 W-ID-MARQUE-LEN   PIC S9(4) USAGE COMP.            
+                    ID_MARQUE                             
+    49 W-ID-MARQUE-TEXT  PIC X(2).                        
+                    ID_FAMILLE                            
+
+La première variable W-ID-MARQUE-LEN  est la longueur 
+et la deuxième W-ID-MARQUE-TEXT est le contenu.
+
+
+*****************************************
+Ecrire un programme cobol qui lit toutes les lignes 
+et affiche par DISPLAY le contenu des colonnes et la longueur de la colonne de longueur variable.
+*****************************************
+

@@ -1,0 +1,93 @@
+ IDENTIFICATION DIVISION.
+ PROGRAM-ID.   DEMO02.
+
+* AFFICHER LES INFORMATIONS DU PRODUIT 'P03'
+ ENVIRONMENT DIVISION.
+ CONFIGURATION SECTION.
+ SPECIAL-NAMES.
+     DECIMAL-POINT IS COMMA.
+
+ DATA DIVISION.
+ WORKING-STORAGE SECTION.
+      
+      EXEC SQL
+          INCLUDE SQLCA
+      END-EXEC
+
+      EXEC SQL
+         INCLUDE PROD
+      END-EXEC
+
+* DECLARATION DU CURSEUR
+    EXEC SQL
+        DECLARE CPROD CURSOR
+        FOR 
+            SELECT P_NO, DESCRIPTION, PRICE
+            FROM PRODUCTS
+
+    END-EXEC
+    
+ 77 WS-ANO   PIC 99 VALUE ZERO.   
+
+ PROCEDURE DIVISION.
+ 
+    EXEC SQL 
+        OPEN CPROD
+    END-EXEC
+    PERFORM TEST-SQLCODE
+    
+    EXEC SQL 
+        FETCH CPROD
+        INTO :PROD-P-NO, :PROD-DESCRIPTION, :PROD-PRICE
+    END-EXEC    
+    PERFORM TEST-SQLCODE    
+        
+    PERFORM UNTIL SQLCODE = +100
+    
+        DISPLAY "PROD N°", PROD-P-NO
+        DISPLAY "DESCRIPTION ", PROD-DESCRIPTION  
+        DISPLAY "PRIX ", PROD-PRICE
+        
+        EXEC SQL 
+            FETCH CPROD
+            INTO :PROD-P-NO, :PROD-DESCRIPTION, :PROD-PRICE
+        END-EXEC    
+        PERFORM TEST-SQLCODE         
+        
+    END-PERFORM
+    EXEC SQL 
+        CLOSE CPROD
+    END-EXEC
+    PERFORM TEST-SQLCODE        
+    
+    GOBACK.
+        
+TEST-SQLCODE.
+        
+    EVALUATE TRUE
+        WHEN SQLCODE = ZERO
+                CONTINUE
+        WHEN SQLCODE > 0
+            IF SQLCODE = +100
+                DISPLAY "JEU DE DONNEES VIDE OU FINI"
+            ELSE
+                DISPLAY "WARNING : ", SQLCODE
+            END-IF
+        WHEN SQLCODE < ZERO
+            PERFORM ABEND-PROG
+    END-EVALUATE.
+    
+ABEND-PROG.
+    DISPLAY "ANOMALIE GRAVE : ", SQLCODE
+    COMPUTE WS-ANO = 1 / WS-ANO.
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
