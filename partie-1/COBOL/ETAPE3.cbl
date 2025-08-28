@@ -45,11 +45,13 @@
            05 WS-PRIX          PIC X(10).
            05 WS-DEVISE        PIC X(3).
       
-      *> prix en devise locale/en USD
+      *> prix en devise locale/en USD - FORMAT COMP-3
        77 WS-PRIX-NUM     PIC 9(7)V99 VALUE 0.   
-       77 WS-PRIX-USD     PIC 9(7)V99 VALUE 0.
+       77 WS-PRIX-USD     PIC S9(3)V9(2) USAGE COMP-3 VALUE 0.
        77 WS-I            PIC 99 VALUE 0.
-       77 WS-PRIX-FORMATE PIC ZZZ.ZZZ.ZZ9,99.
+
+      ** Variables d'édition
+       77 ED-PRIX-USD     PIC ZZZ,99.
 
       ** Variables pour le formatage de la description
        77 WS-MAJUSCULES  PIC X(26) VALUE "ABCDEFGHIJKLMNOPQRSTUVWXYZ".
@@ -89,8 +91,8 @@
                DISPLAY "PRIX EN USD    : ", WS-PRIX-USD
 
       *        * Formatage du prix pour affichage
-               MOVE WS-PRIX-USD TO WS-PRIX-FORMATE
-               DISPLAY "PRIX FORMATE   : ", WS-PRIX-FORMATE
+               MOVE WS-PRIX-USD TO ED-PRIX-USD
+               DISPLAY "PRIX FORMATE   : ", ED-PRIX-USD
 
                PERFORM LECT-NEWPRODS
            END-PERFORM
