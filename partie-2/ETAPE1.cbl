@@ -51,6 +51,16 @@
                INCLUDE PROD
            END-EXEC.
 
+      * Variables de travail pour la conversion de la date
+       01 WS-DATE-TEMP.
+          05 WS-DAY    PIC 9(2).
+          05 FILLER    PIC X.
+          05 WS-MONTH  PIC 9(2).
+          05 FILLER    PIC X.
+          05 WS-YEAR   PIC 9(4).
+
+       01 WS-DATE-FORMATTED PIC X(10).
+
        01 WS-FF-VEU PIC 9 VALUE ZERO.
            88 NFF-VEU VALUE 0.
            88 FF-VEU  VALUE 1.
@@ -179,7 +189,7 @@
            ADD WS-CHIFFRE-AFF TO WS-CA-TOTAL-CMD
            MOVE WS-CHIFFRE-AFF TO ED-CHIFFRE-AFF
            
-           DISPLAY 'CMD=' VEU-NUM-CMD ' DATE=' VEU-DATE-CMD
+           DISPLAY 'CMD=' VEU-NUM-CMD ' DATE=' WS-DATE-FORMATTED
                    ' EMP=' VEU-NUM-EMP ' CLI=' VEU-NUM-CLI
            DISPLAY 'PROD=' VEU-NUM-PROD ' PRIX=' ED-PRIX
                    ' QTE=' VEU-QTE ' CA=' ED-CHIFFRE-AFF.
@@ -209,11 +219,11 @@
            COMPUTE WS-CHIFFRE-AFF = VAS-QTE * WS-PRIX-RECUP
            ADD WS-CHIFFRE-AFF TO WS-CA-TOTAL-CMD
            MOVE WS-CHIFFRE-AFF TO ED-CHIFFRE-AFF
-           
-           DISPLAY 'CMD=' VAS-NUM-CMD ' DATE=' VAS-DATE-CMD
+
+           DISPLAY 'CMD=' VAS-NUM-CMD ' DATE=' WS-DATE-FORMATTED
                    ' EMP=' VAS-NUM-EMP ' CLI=' VAS-NUM-CLI
            DISPLAY 'PROD=' VAS-NUM-PROD ' PRIX=' ED-PRIX
-                   ' QTE=' VAS-QTE ' CA=' ED-CHIFFRE-AFF.   
+                   ' QTE=' VAS-QTE ' CA=' ED-CHIFFRE-AFF.
 
        RECUPERER-PRIX-DB2.
            EXEC SQL
@@ -245,6 +255,12 @@
                  MOVE VEU-NUM-CMD TO WS-CMD-VEU
                  MOVE VEU-NUM-CLI TO WS-CLI-VEU
                  MOVE VEU-NUM-EMP TO WS-EMP-VEU
+
+      *          * Convertir et formater la date
+                 MOVE VEU-DATE-CMD TO WS-DATE-TEMP
+                 STRING WS-YEAR '-' WS-MONTH '-' WS-DAY
+                 DELIMITED BY SIZE
+                 INTO WS-DATE-FORMATTED
            END-READ.
       
        LECT-VAS.
@@ -257,4 +273,10 @@
                  MOVE VAS-NUM-CMD TO WS-CMD-VAS
                  MOVE VAS-NUM-CLI TO WS-CLI-VAS
                  MOVE VAS-NUM-EMP TO WS-EMP-VAS
+
+      *          * Convertir et formater la date
+                 MOVE VEU-DATE-CMD TO WS-DATE-TEMP
+                 STRING WS-YEAR '-' WS-MONTH '-' WS-DAY
+                 DELIMITED BY SIZE
+                 INTO WS-DATE-FORMATTED
            END-READ.
