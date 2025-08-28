@@ -1,3 +1,6 @@
+attention, commission vient de employé
+le total n'inclut pas la commission, mais on l'affiche quand même (TOTAL = SUB TOTAL + SALES TAX)
+
 https://claude.ai/share/beda1d03-88f5-4c46-9242-f5932b759853
 
 Structure de votre arborescence
