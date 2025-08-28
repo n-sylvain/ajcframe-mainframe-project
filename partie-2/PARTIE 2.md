@@ -25,3 +25,7 @@
 
 
 COBOL TP10 - SYNCHRO
+
+ETAPE1 : afficher les données consolidées de VentesEU et VENTESAS en utilisant la notion de synchro (exercice de référence)
+ETAPE2 : afficher en display en sysout pour chaque vente les informations qui vont être updaté et dans quelles bases.
+ETAPE3 : màj les bases mais on va pour le moment essayer qu'une seule base (la base ORDERS) et si ça fonctionne, on fera les autres bases
