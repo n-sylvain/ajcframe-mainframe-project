@@ -21,3 +21,7 @@
 - Vérifier la bonne entrée d'info pour chacune des bases
 - Contrôle des doublons
 - Validation des calculs de balance
+
+
+
+COBOL TP10 - SYNCHRO
