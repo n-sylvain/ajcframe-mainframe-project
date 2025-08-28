@@ -234,7 +234,74 @@ Absolument ! Voici un résumé agile de cette réunion, structuré pour être cl
 
 
 
+28 août:
 
+Absolument. Voici un résumé complet et structuré de la réunion.
+
+---
+
+### **Résumé de la Réunion de Coordination Technique**
+
+**Titre :** Code review et coordination technique avec Denis sur le projet de base de données et extraction de factures
+**Date :** 28 août
+**Participants :** Moi (Animateur), Denis, Anne Noire
+
+---
+
+#### **1. Objectif Principal de la Réunion**
+Faire le point sur l'avancement des différentes parties du projet (notamment la gestion de base de données DB2 et l'extraction de factures), résoudre des problèmes techniques bloquants et se coordonner pour la suite des développements.
+
+---
+
+#### **2. Points Techniques Abordés et Problèmes Rencontrés**
+
+*   **Problème de Denis (Partie DB2 - Mise à jour de table) :**
+    *   **Problème :** Denis travaille sur un batch pour alimenter la table `PARTS` de la base de données à partir d'un fichier (`NEWPART.KSDS`). Son code JCL rencontre une erreur (`module not found`), potentiellement liée à une référence à un module interne `API6D` (lié au processus BIND).
+    *   **Solution proposée :** L'animateur recommande de s'inspirer de l'exercice 4 du cours de Steve, qui couvre toutes les interactions CRUD avec DB2. Il est également suggéré de bien générer et inclure le `DCLGEN` pour la table `PARTS` et de placer le programme COBOL dans le dossier `db2` et non `cobol` pour éviter des erreurs de chemin.
+
+*   **Problème de Coordination des Fichiers :**
+    *   **Conflit :** Denis et l'animateur ont tous deux créé un fichier nommé `Étape4` dans des dossiers différents, ce qui a causé un problème de merge sur GitHub.
+    *   **Solution adoptée :** Pour éviter les conflits futurs, il a été décidé que Denis travaillerait dans un sous-dossier dédié (ex: `partie1-anoua`) au sein du dossier `data`.
+
+*   **Code Review de la Partie 3 (Extraction de Factures) par Anoua :**
+    *   **Retours positifs :** Anoua a passé plusieurs heures à analyser le code et le trouve bien structuré et complet ("un sacré travail").
+    *   **Questions et anomalies relevées :**
+        1.  **Variable temporaire redondante :** Ligne ~48k, un `MOVE` vers une variable de travail (`EXT-QUANTITY`) semble inutile et peut être supprimé.
+        2.  **Logique de l'Error Flag :** La variable `WS-ERROR-FLAG` (utilisée comme un booléen) semble toujours positionnée sur "Yes" et sa logique (valeur 88) n'est pas claire, notamment dans le traitement par défaut du taux de TVA.
+        3.  **Compréhension du fichier de sortie :** Confusion sur le nombre de lignes dans le fichier `EXTRACT` (4 lignes car une entreprise a commandé deux produits) et sur la largeur des enregistrements (280 caractères, nécessitant la touche F11 pour tout voir sous TSO).
+    *   **Actions :** Anoua va tester le code sur sa machine, le refactoriser et corriger les anomalies identifiées.
+
+*   **Avancement de l'Animateur (Partie 1 - DB2) :**
+    *   Il travaille sur la mise à jour de la base DB2 via SQL et a rencontré un bug sur le formatage des champs numériques (prix avec décimales). Son code n'est pas encore poussé car il n'est pas totalement clean.
+
+---
+
+#### **3. Démonstration de Denis**
+Denis a fait une démo de son interface IHM (saisie de nouvelles pièces) :
+*   **Fonctionnalité :** Un écran de login qui valide les credentials contre un fichier, puis un écran de saisie avec des contrôles de validation (champs obligatoires).
+*   **Problème persistant :** Un "glitch" graphique (affichage corrompu) entre deux écrans (`MAPS`) qui bloque la fluidité de l'IHM.
+*   **Verdict :** Le cœur de la fonctionnalité (insertion contrôlée en base) fonctionne, mais l'interface utilisateur a besoin de corrections.
+
+---
+
+#### **4. Coordination et Prochaines Étapes**
+
+*   **Répartition des tâches :**
+    *   **Anoua :** Se concentre sur le test, la correction et l'amélioration de la **Partie 3 (Factures)**. Il devra également regarder les tests unitaires (potentiellement sur la fonction de gestion des dates).
+    *   **Denis :** Se concentre sur la correction du **glitch IHM** et sur la finalisation du **batch de mise à jour de la table PARTS**.
+    *   **Animateur :** Se concentre sur la finalisation des **Parties 1 et 2 (DB2)**.
+
+*   **Gestion de Code :** Utilisation de GitHub pour le versionnement. Il a été rappelé à Denis comment faire des commits et des pushes corrects via VS Code.
+
+*   **Planning :** La team est globalement en retard. Une prochaine point est prévu à **14h** le jour même. Le travail le week-end est envisagé (à partir de 10h-10h30) pour rattraper le retard.
+
+*   **Présentation finale :** Denis a préparé un visuel de présentation. Il est convenu d'en discuter plus tard, une fois l'avancement technique plus concret.
+
+---
+
+#### **5. Informations Diverses / Apartés**
+*   La réunion a été perturbée par des bruits de travaux chez l'animateur et chez Anoua.
+*   Brève discussion informelle sur l'envoi de CV et le marché de l'emploi COBOL (banques, assurances).
 
 
 
