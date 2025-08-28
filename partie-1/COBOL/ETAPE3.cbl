@@ -61,6 +61,13 @@
        77 WS-PREV-CHAR   PIC X VALUE SPACE.
        77 WS-CHAR        PIC X.
 
+      ** TABLE DES TAUX - OPTIMISATION MEMOIRE
+       01 TAB-TAUX.
+           05 NB-TAUX          PIC 99 VALUE ZERO.
+           05 DEVISE-TAUX OCCURS 20 TIMES INDEXED BY IDX-TAUX.
+               10 CODE-DEVISE  PIC X(3).
+               10 TAUX-CHANGE  PIC 9(3)V9(5).
+
       ** Variables pour la recherche de taux
        77 WS-CODE-DEV-LU   PIC X(3).
        77 WS-TAUX-LU       PIC X(10).
@@ -68,6 +75,9 @@
        77 WS-DEVISE-TROUVE PIC X VALUE 'N'.
 
        PROCEDURE DIVISION.
+
+      *    * Chargement des taux en mémoire
+           PERFORM CHARGE-TAUX-MEMOIRE
 
            PERFORM OUV-NEWPRODS
            PERFORM LECT-NEWPRODS
@@ -82,7 +92,7 @@
                PERFORM DECOUPE-CSV
 
       *        * Recherche du taux pour cette devise
-               PERFORM RECHERCHE-TAUX-DEVISE
+               PERFORM RECHERCHE-TAUX-MEMOIRE
 
       *        * Affichage des champs extraits
                DISPLAY "NUMERO PRODUIT : ", WS-NUMERO
@@ -103,42 +113,64 @@
 
            GOBACK.
 
-       RECHERCHE-TAUX-DEVISE.
+       CHARGE-TAUX-MEMOIRE.
+           DISPLAY "CHARGEMENT DES TAUX EN MEMOIRE..."
+           MOVE ZERO TO NB-TAUX
+           
+           PERFORM OUV-TAUX
+           IF FF-TAUX = 0 THEN
+               PERFORM LECT-TAUX
+               
+               PERFORM UNTIL FF-TAUX = 1 OR NB-TAUX >= 20
+                   ADD 1 TO NB-TAUX
+                   SET IDX-TAUX TO NB-TAUX
+                   
+                   PERFORM DECOUPE-TAUX
+                   
+      *            * Stockage dans la table
+                   MOVE WS-CODE-DEV-LU TO CODE-DEVISE(IDX-TAUX)
+                   COMPUTE TAUX-CHANGE(IDX-TAUX) = 
+                                        FUNCTION NUMVAL(WS-TAUX-LU)
+                   
+                   DISPLAY "TAUX CHARGE : ", 
+                           CODE-DEVISE(IDX-TAUX), " = ",
+                           TAUX-CHANGE(IDX-TAUX)
+                   
+                   PERFORM LECT-TAUX
+               END-PERFORM
+               
+               PERFORM FERM-TAUX
+           END-IF
+           
+           DISPLAY "NOMBRE DE TAUX CHARGES : ", NB-TAUX
+           .
+
+       RECHERCHE-TAUX-MEMOIRE.
            MOVE 'N' TO WS-DEVISE-TROUVE
            MOVE ZERO TO WS-TAUX-NUM
            
       *    * Si c'est du dollar, pas besoin de chercher
            IF WS-DEVISE = "DO" OR WS-DEVISE = "USD" THEN
                MOVE 'O' TO WS-DEVISE-TROUVE
+               MOVE 1 TO WS-TAUX-NUM
                DISPLAY "DEVISE DE BASE (USD) : ", WS-DEVISE
            ELSE
-               PERFORM OUV-TAUX
-               IF FF-TAUX = 0 THEN
-                   PERFORM LECT-TAUX
+      *        * Recherche dans la table en mémoire
+               PERFORM VARYING IDX-TAUX FROM 1 BY 1
+                   UNTIL IDX-TAUX > NB-TAUX 
+                      OR WS-DEVISE-TROUVE = 'O'
                    
-                   PERFORM UNTIL FF-TAUX = 1 OR WS-DEVISE-TROUVE = 'O'
-                       PERFORM DECOUPE-TAUX
-                       
-      *                * Vérifier si c'est la devise recherchée
-                       IF WS-CODE-DEV-LU = WS-DEVISE THEN
-                           MOVE 'O' TO WS-DEVISE-TROUVE
-                           COMPUTE WS-TAUX-NUM = 
-                                            FUNCTION NUMVAL(WS-TAUX-LU)
-                           DISPLAY "TAUX TROUVE POUR ",
-                                   WS-DEVISE, " : ", 
-                                   WS-TAUX-LU
-                       END-IF
-                       
-                       IF WS-DEVISE-TROUVE = 'N' THEN
-                           PERFORM LECT-TAUX
-                       END-IF
-                   END-PERFORM
-                   
-                   PERFORM FERM-TAUX
-               END-IF
+                   IF CODE-DEVISE(IDX-TAUX) = WS-DEVISE THEN
+                       MOVE 'O' TO WS-DEVISE-TROUVE
+                       MOVE TAUX-CHANGE(IDX-TAUX) TO WS-TAUX-NUM
+                       DISPLAY "TAUX TROUVE EN MEMOIRE POUR ",
+                               WS-DEVISE, " : ", 
+                               TAUX-CHANGE(IDX-TAUX)
+                   END-IF
+               END-PERFORM
                
                IF WS-DEVISE-TROUVE = 'N' THEN
-                   DISPLAY "DEVISE NON TROUVEE : ", WS-DEVISE
+                   DISPLAY "DEVISE NON TROUVEE EN MEMOIRE : ", WS-DEVISE
                END-IF
            END-IF
 
