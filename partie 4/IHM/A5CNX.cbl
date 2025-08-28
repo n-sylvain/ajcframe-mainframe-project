@@ -19,18 +19,8 @@
 00181
 001900 01 ZONE.
 002100     05 INFOS         PIC X(62).
-002310
+
 002397 01 ERR-MESS PIC X(60) VALUE 'FIN'.
-002399 77 WS-CD-ERR     PIC 9(2).
-002409
-
-002510 77 WS-TEMPS      PIC S9(15) COMP-3.
-002520
-002530 77 WS-RES        PIC S9(10) VALUE ZERO.
-
-
-       77 WS-RESP       PIC S9(8) COMP.
-
 
        01 WS-RECORD.
            05 WS-ID-REC     PIC X(5).
@@ -41,12 +31,14 @@
            05 WS-SAL-REC    PIC 9(5)V99.
            05 WS-FIL-REC    PIC X(3).
 
-
        01 ZONE-ED.
            05 FILLER        PIC X(6) VALUE 'ERR : '.
            05 ERR-ED        PIC Z9   VALUE ' 0'.
 
-
+       77 WS-CD-ERR     PIC 9(2).
+       77 WS-TEMPS      PIC S9(15) COMP-3.
+       77 WS-RES        PIC S9(10) VALUE ZERO.
+       77 WS-RESP       PIC S9(8) COMP.
 
 002540
 002550 LINKAGE SECTION.
@@ -164,15 +156,28 @@
                WHEN WS-RESP = DFHRESP(NORMAL)
                    MOVE WS-PREN-REC TO  MESS1O
                    IF WS-PREN-REC = PWDI THEN
-      *                 MOVE DFHDFT TO MESS1C
-      *                 MOVE 'CONNEXION OK.' TO  MESS1O
-                       EXEC CICS XCTL
+                       MOVE LOW-VALUE TO MAP5COXO
+
+                        EXEC CICS SEND CONTROL
+                            ERASE
+                            FREEKB
+                       END-EXEC
+
+
+                        EXEC CICS XCTL
                             PROGRAM('A5PART')
 
                            COMMAREA(DFHCOMMAREA)
-                           LENGTH(LENGTH OF DFHCOMMAREA)
-                           RESP (WS-CD-ERR)
-                       END-EXEC
+                            LENGTH(LENGTH OF DFHCOMMAREA)
+                            RESP (WS-CD-ERR)
+                        END-EXEC
+
+
+
+
+
+
+
 
                        IF WS-CD-ERR  NOT EQUAL  DFHRESP(NORMAL)
 004337                      MOVE 'ERR XCTL' TO ERR-MESS

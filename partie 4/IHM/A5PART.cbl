@@ -25,6 +25,9 @@
 002530 77 WS-RES        PIC S9(10) VALUE ZERO.
 002531
        77 WS-RESP       PIC S9(8) COMP.
+       77 WS-RESP2      PIC S9(8) COMP.
+       77 WS-RESP3      PIC S9(8) COMP.
+
 
        01 ENREG-KSDS.
            05 WS-IDK        PIC X(2).
@@ -51,7 +54,7 @@
 003120       WHEN 'T5PA'
 003200        IF EIBCALEN = ZERO  THEN
 003210                MOVE LOW-VALUE TO MAP5PARO
-                      MOVE '9dddd' TO MESS1O
+                      MOVE '5dddd' TO MESS1O
 003310                PERFORM ENVOI-ECRAN
               ELSE
                    MOVE 'EIB  sup  ZERO' TO MESS1O
@@ -187,13 +190,23 @@
                MOVE VILLEI TO WS-VILLEK
 
 
-               EXEC CICS WRITE
-                   FILE('A5PARK')
-                   FROM(ENREG-KSDS)
-                   RIDFLD(IDI)
-                   LENGTH(LENGTH OF ENREG-KSDS)
-                   RESP(WS-RESP)
-               END-EXEC
+      *         EXEC CICS WRITE
+      *            FILE('A5PARK')
+      *             FROM(ENREG-KSDS)
+      *             RIDFLD(IDI)
+      *             LENGTH(LENGTH OF ENREG-KSDS)
+      *             RESP(WS-RESP)
+      *         END-EXEC
+      *
+
+
+                EXEC CICS
+                  WRITE DATASET ('A5PARK')
+                        FROM (ENREG-KSDS)
+                        RIDFLD (IDI)
+                        RESP (WS-RESP)
+                END-EXEC
+
 
 
 
@@ -203,28 +216,78 @@
                    WHEN WS-RESP = DFHRESP(NOTFND)
                         MOVE 'Issss.'
                         TO MESS1O
-                     WHEN WS-RESP = DFHRESP(NORMAL)
+                   WHEN WS-RESP = DFHRESP(NORMAL)
                        MOVE 'Insertion réussie dans la table PARTS.'
                         TO MESS1O
                        MOVE DFHDFT TO MESS1C
+                   WHEN WS-RESP = DFHRESP(DUPKEY) OR
+                   WS-RESP = DFHRESP(DUPREC) OR
+                   WS-RESP = 14
+                       MOVE 'Doublon dans la table PARTS.'
+                       TO MESS1O
 
-                     WHEN WS-RESP = 14
-                        PERFORM MSG-DOUBLON
-                    WHEN OTHER
+
+      *               EXEC CICS READ FILE('A5PARK')
+      *                     INTO(ENREG-KSDS)
+      *                     RIDFLD(IDI)
+      *                      RESP(WS-RESP3)
+      *                 END-EXEC
+      *
+      *                 EVALUATE TRUE
+      *                     WHEN WS-RESP3  = DFHRESP(NORMAL)
+      *                         PERFORM RWRT
+      *                     WHEN OTHER
+      *                         INITIALIZE ZONE-ED
+      *                         MOVE 'RESP' TO ERR-TYPE
+      *                         MOVE WS-RESP TO ERR-ED
+      *                         MOVE ZONE-ED TO MESS1O
+      *
+      *                 END-EVALUATE
+      *
+                   WHEN OTHER
                         INITIALIZE ZONE-ED
                         MOVE 'RESP' TO ERR-TYPE
                         MOVE WS-RESP TO ERR-ED
                         MOVE ZONE-ED TO MESS1O
                END-EVALUATE
 
-
-
            END-IF
 
 
 
+           .
+
+       RWRT.
+
+
+
+
+
+
+
+
+           EXEC CICS REWRITE
+                FILE('A5PARK')
+                FROM(ENREG-KSDS)
+                RESP(WS-RESP2)
+           END-EXEC
+
+
+           EVALUATE TRUE
+               WHEN WS-RESP2 = DFHRESP(NORMAL)
+                   MOVE 'MAJ reussie dans le fichier KSDS.'
+                   TO MESS1O
+                   MOVE DFHDFT TO MESS1C
+               WHEN OTHER
+                   INITIALIZE ZONE-ED
+                   MOVE 'RESP' TO ERR-TYPE
+                   MOVE WS-RESP2 TO ERR-ED
+                   MOVE ZONE-ED TO MESS1O
+
+           END-EVALUATE
 
            .
+
 
 014191 LECT-ECRAN.
 
