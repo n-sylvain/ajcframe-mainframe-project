@@ -139,21 +139,35 @@
            PERFORM LECT-VAS
       
            PERFORM UNTIL FF-VEU AND FF-VAS
+              
+      * GESTION DE LA RUPTURE SUR LA COMMANDE
+              IF WS-CLE-COURANTE NOT = WS-CLE-VEU AND 
+                 WS-CLE-COURANTE NOT = WS-CLE-VAS AND
+                 NOT PREMIERE-LIGNE
+                 
+                 PERFORM TRAITEMENT-RUPTURE
+              END-IF
+
               EVALUATE TRUE
               WHEN WS-CLE-VEU < WS-CLE-VAS
                  DISPLAY 'VENTE EUROPE UNIQUEMENT:'
-                 PERFORM TRT-VEU
+                 MOVE WS-CLE-VEU TO WS-CLE-COURANTE
+                 PERFORM TRAITER-LIGNE-VEU
               WHEN WS-CLE-VEU > WS-CLE-VAS
                  DISPLAY 'VENTE ASIE UNIQUEMENT:'
-                 PERFORM TRT-VAS
+                 MOVE WS-CLE-VAS TO WS-CLE-COURANTE
+                 PERFORM TRAITER-LIGNE-VAS
               WHEN OTHER
                  DISPLAY 'VENTE EUROPE ET ASIE (MEME CLE):'
-                 PERFORM TRT-VEU
-                 PERFORM TRT-VAS
+                 MOVE WS-CLE-VEU TO WS-CLE-COURANTE
+                 PERFORM TRAITER-LIGNE-VEU
+                 PERFORM TRAITER-LIGNE-VAS
               END-EVALUATE
-              DISPLAY ' '
            END-PERFORM
 
+      * Traitement de la derniere rupture et mise a jour du dernier client
+           PERFORM TRAITEMENT-RUPTURE
+           
       * MAJ DU DERNIER CLIENT
            IF WS-CLIENT-PREC > 0 AND WS-CA-CLIENT > 0
               PERFORM MAJ-BALANCE-CLIENT
@@ -174,47 +188,38 @@
            MOVE ZERO TO WS-CMD-PRECEDENTE
            COMPUTE WS-CMD-PRECEDENTE = 1 / WS-CMD-PRECEDENTE.
       
-       TRT-VEU.
-           MOVE WS-CLE-VEU TO WS-CLE-COURANTE
-           SET CMD-PAS-CREE TO TRUE
+       TRAITEMENT-RUPTURE.
+           IF NOT PREMIERE-LIGNE
+              MOVE WS-CA-TOTAL-CMD TO ED-CA-TOTAL
+              DISPLAY 'TOTAL CA COMMANDE ' WS-CMD-PRECEDENTE ' : '
+                      ED-CA-TOTAL
+              DISPLAY ' '
+           END-IF
+           MOVE ZERO TO WS-CA-TOTAL-CMD.
+      
+       TRAITER-LIGNE-VEU.
            PERFORM UNTIL WS-CLE-COURANTE NOT = WS-CLE-VEU OR FF-VEU
-              PERFORM AFF-VEU
+              PERFORM TRAITER-DETAIL-VEU
               PERFORM LECT-VEU
-           END-PERFORM
-      * AFFICHAGE DU CA TOTAL A LA FIN DU TRAITEMENT VEU
-           IF NOT PREMIERE-LIGNE
-              MOVE WS-CA-TOTAL-CMD TO ED-CA-TOTAL
-              DISPLAY 'TOTAL CA COMMANDE ' WS-CMD-PRECEDENTE ' : '
-                      ED-CA-TOTAL
-              DISPLAY ' '
-           END-IF.
-      
-       TRT-VAS.
-           MOVE WS-CLE-VAS TO WS-CLE-COURANTE
-           SET CMD-PAS-CREE TO TRUE
+           END-PERFORM.
+
+       TRAITER-LIGNE-VAS.
            PERFORM UNTIL WS-CLE-COURANTE NOT = WS-CLE-VAS OR FF-VAS
-              PERFORM AFF-VAS
+              PERFORM TRAITER-DETAIL-VAS
               PERFORM LECT-VAS
-           END-PERFORM
-      * AFFICHAGE DU CA TOTAL A LA FIN DU TRAITEMENT VAS
-           IF NOT PREMIERE-LIGNE
-              MOVE WS-CA-TOTAL-CMD TO ED-CA-TOTAL
-              DISPLAY 'TOTAL CA COMMANDE ' WS-CMD-PRECEDENTE ' : '
-                      ED-CA-TOTAL
-              DISPLAY ' '
-           END-IF.
-      
-       AFF-VEU.
-           MOVE VEU-NUM-PROD TO WS-PROD-NO
+           END-PERFORM.
            
-      *    * GESTION DU CA TOTAL PAR COMMANDE
-           IF VEU-NUM-CMD NOT = WS-CMD-PRECEDENTE
+       TRAITER-DETAIL-VEU.
+           SET CMD-DEJA-CREE TO TRUE
+           IF PREMIERE-LIGNE OR VEU-NUM-CMD NOT = WS-CMD-PRECEDENTE
               MOVE VEU-NUM-CMD TO WS-CMD-PRECEDENTE
               MOVE ZERO TO WS-CA-TOTAL-CMD
               SET AUTRE-LIGNE TO TRUE
+              SET CMD-PAS-CREE TO TRUE
            END-IF
            
-      *    DISPLAY 'VEU-PRIX = ' VEU-PRIX
+           MOVE VEU-NUM-PROD TO WS-PROD-NO
+           
            IF VEU-PRIX = SPACES
               PERFORM RECUPERER-PRIX-DB2
               MOVE WS-PRIX-RECUP TO WS-PRIX-FINAL
@@ -235,20 +240,21 @@
            DISPLAY 'PROD=' VEU-NUM-PROD ' PRIX=' ED-PRIX
                    ' QTE=' VEU-QTE ' CA=' ED-CHIFFRE-AFF
 
-      * ===== AJOUT POUR LA MAJ DB2 =====
-           PERFORM MAJ-DB2-VEU.
-      
-       AFF-VAS.
-           MOVE VAS-NUM-PROD TO WS-PROD-NO
+           PERFORM MAJ-DB2-VEU
            
-      *    * GESTION DU CA TOTAL PAR COMMANDE
-           IF VAS-NUM-CMD NOT = WS-CMD-PRECEDENTE
+           PERFORM GERER-CA-CLIENT-VEU.
+      
+       TRAITER-DETAIL-VAS.
+           SET CMD-DEJA-CREE TO TRUE
+           IF PREMIERE-LIGNE OR VAS-NUM-CMD NOT = WS-CMD-PRECEDENTE
               MOVE VAS-NUM-CMD TO WS-CMD-PRECEDENTE
               MOVE ZERO TO WS-CA-TOTAL-CMD
               SET AUTRE-LIGNE TO TRUE
+              SET CMD-PAS-CREE TO TRUE
            END-IF
            
-      *    DISPLAY 'VAS-PRIX = ' VAS-PRIX
+           MOVE VAS-NUM-PROD TO WS-PROD-NO
+           
            IF VAS-PRIX = SPACES
               PERFORM RECUPERER-PRIX-DB2
               MOVE WS-PRIX-RECUP TO WS-PRIX-FINAL
@@ -269,8 +275,9 @@
            DISPLAY 'PROD=' VAS-NUM-PROD ' PRIX=' ED-PRIX
                    ' QTE=' VAS-QTE ' CA=' ED-CHIFFRE-AFF
 
-      * ===== AJOUT POUR LA MAJ DB2 =====
-           PERFORM MAJ-DB2-VAS.
+           PERFORM MAJ-DB2-VAS
+
+           PERFORM GERER-CA-CLIENT-VAS.
 
       * ===== NOUVELLES SECTIONS POUR LA MAJ DB2 =====
        MAJ-DB2-VEU.
@@ -280,10 +287,7 @@
            END-IF
            
       * CREATION DE L'ITEM
-           PERFORM CREER-ITEM-VEU
-           
-      * GESTION DU CA CLIENT
-           PERFORM GERER-CA-CLIENT-VEU.
+           PERFORM CREER-ITEM-VEU.
            
        MAJ-DB2-VAS.
       * CREATION DE LA COMMANDE SI PREMIERE LIGNE
@@ -292,10 +296,7 @@
            END-IF
            
       * CREATION DE L'ITEM
-           PERFORM CREER-ITEM-VAS
-           
-      * GESTION DU CA CLIENT
-           PERFORM GERER-CA-CLIENT-VAS.
+           PERFORM CREER-ITEM-VAS.
 
        CREER-COMMANDE-VEU.
            MOVE VEU-NUM-CMD TO ORD-O-NO
