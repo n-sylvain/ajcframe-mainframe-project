@@ -208,3 +208,8 @@ Conception permettant l'ajout facile de nouvelles fonctionnalités sans refactor
 4. **Performance** sur gros volumes
 
 Cette analyse démontre une maîtrise complète de l'écosystème mainframe et des bonnes pratiques de développement COBOL/DB2.
+
+
+---
+
+
