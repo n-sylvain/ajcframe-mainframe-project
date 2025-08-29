@@ -165,9 +165,11 @@ C:\Users\ten_d\Documents\FROMATION GRANDS SYSTEMES\10-PROJET FINAL\partie 4\part
 
 
 C:\Users\ten_d\Documents\FROMATION GRANDS SYSTEMES\10-PROJET FINAL\partie 4\parts ksds vers db2\K5DB2.cbl
-'API4.SOURCE.COBOL(K5DB2)'
+'API4.SOURCE.DB2(K5DB2)'
 
 
+
+'API4.SOURCE.DCLGEN(PARTS)'
 
 
 

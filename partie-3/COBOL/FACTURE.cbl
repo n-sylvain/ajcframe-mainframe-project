@@ -260,7 +260,9 @@
 026100     05 FILLER                PIC X(82) VALUE SPACES.
 026200     05 FILLER                PIC X(15) VALUE 'SUB TOTAL    : '.
 026300     05 LST-AMOUNT            PIC ZZ.ZZZ,99.
-026400     05 FILLER                PIC X(11) VALUE SPACES.
+026400     05 FILLER                PIC X(3) VALUE SPACES.
+026400     05 FILLER                PIC X(3) VALUE 'USD'.
+026400     05 FILLER                PIC X(5) VALUE SPACES.
 026500     05 FILLER                PIC X(1) VALUE '|'.
 026600
 026700 01 LIGNE-TVA.
@@ -270,7 +272,9 @@
 027100     05 LT-PERCENT            PIC Z9,9.
 027200     05 FILLER                PIC X(4) VALUE '%): '.
 027300     05 LT-AMOUNT             PIC ZZ.ZZZ,99.
-027400     05 FILLER                PIC X(11) VALUE SPACES.
+026400     05 FILLER                PIC X(3) VALUE SPACES.
+026400     05 FILLER                PIC X(3) VALUE 'USD'.
+026400     05 FILLER                PIC X(5) VALUE SPACES.
 027500     05 FILLER                PIC X(1) VALUE '|'.
 027600
 027700 01 LIGNE-COMMISSION.
@@ -279,7 +283,9 @@
 028000     05 FILLER                PIC X(20) VALUE
 028010                                       'COMMISSION ( 9,9%): '.
 028100     05 LC-AMOUNT             PIC ZZ.ZZZ,99.
-028200     05 FILLER                PIC X(11) VALUE SPACES.
+026400     05 FILLER                PIC X(3) VALUE SPACES.
+026400     05 FILLER                PIC X(3) VALUE 'USD'.
+026400     05 FILLER                PIC X(5) VALUE SPACES.
 028300     05 FILLER                PIC X(1) VALUE '|'.
 028400
 028500 01 LIGNE-TOTAL.
@@ -287,7 +293,9 @@
 028700     05 FILLER                PIC X(82) VALUE SPACES.
 028800     05 FILLER                PIC X(15) VALUE 'TOTAL        : '.
 028900     05 LTO-AMOUNT            PIC ZZ.ZZZ,99.
-029000     05 FILLER                PIC X(11) VALUE SPACES.
+026400     05 FILLER                PIC X(3) VALUE SPACES.
+026400     05 FILLER                PIC X(3) VALUE 'USD'.
+026400     05 FILLER                PIC X(5) VALUE SPACES.
 029100     05 FILLER                PIC X(1) VALUE '|'.
 029200
 029300 PROCEDURE DIVISION.

@@ -52,10 +52,10 @@
 003100********************************************************
 003110      EVALUATE EIBTRNID
 003120       WHEN 'T5PA'
+
 003200        IF EIBCALEN = ZERO  THEN
-003210                MOVE LOW-VALUE TO MAP5PARO
-                      MOVE '5dddd' TO MESS1O
-003310                PERFORM ENVOI-ECRAN
+003210         MOVE LOW-VALUE TO MAP5PARO
+               PERFORM ENVOI-ECRAN
               ELSE
                    MOVE 'EIB  sup  ZERO' TO MESS1O
 
@@ -75,9 +75,10 @@
 004327        END-IF
 004328
 005473       WHEN OTHER
-005476         CONTINUE
+005476         MOVE LOW-VALUE TO MAP5PARO
+               PERFORM ENVOI-ECRAN
 005477      END-EVALUATE
-005478      PERFORM ENVOI-ECRAN
+005478
 008500      .
 008700
 010610******************************************************************
@@ -217,13 +218,13 @@
                         MOVE 'Issss.'
                         TO MESS1O
                    WHEN WS-RESP = DFHRESP(NORMAL)
-                       MOVE 'Insertion réussie dans la table PARTS.'
+                       MOVE 'Insertion réussie.'
                         TO MESS1O
                        MOVE DFHDFT TO MESS1C
                    WHEN WS-RESP = DFHRESP(DUPKEY) OR
                    WS-RESP = DFHRESP(DUPREC) OR
                    WS-RESP = 14
-                       MOVE 'Doublon dans la table PARTS.'
+                       MOVE 'Annulation pour cause de doublon.'
                        TO MESS1O
 
 
@@ -258,13 +259,6 @@
            .
 
        RWRT.
-
-
-
-
-
-
-
 
            EXEC CICS REWRITE
                 FILE('A5PARK')
