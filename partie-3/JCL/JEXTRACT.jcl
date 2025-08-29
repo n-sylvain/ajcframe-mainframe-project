@@ -1,5 +1,13 @@
 //API6JEXT JOB NOTIFY=&SYSUID,CLASS=A,MSGCLASS=H,
 //           TIME=(0,30),MSGLEVEL=(1,1)
+//PROCLIB  JCLLIB ORDER=SDJ.FORM.PROCLIB
+//         SET SYSUID=API6,
+//             NOMPGM=EXTRACT
+//*
+//SUPPRIME EXEC PGM=IEFBR14
+//STEPLIB  DD DSN=SYS1.LINKLIB,DISP=SHR
+//FICHIER  DD DSN=API6.PROJET.EXTRACT.DATA,DISP=(OLD,DELETE)
+//SYSOUT   DD SYSOUT=*
 //***********************************************************
 //*  ====> JCL D'APPEL DE LA PROCEDURE COMPDB2  BATCH       *
 //*                                                         *
@@ -10,10 +18,7 @@
 //*                  API?DB$ PAR LE NOM DU PROGRAMME        *
 //*                                                         *
 //***********************************************************
-//PROCLIB  JCLLIB ORDER=SDJ.FORM.PROCLIB
 //*
-//         SET SYSUID=API6,
-//             NOMPGM=EXTRACT
 //*
 //*
 //APPROC   EXEC COMPDB2
