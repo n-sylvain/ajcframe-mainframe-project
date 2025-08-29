@@ -305,7 +305,86 @@ Denis a fait une démo de son interface IHM (saisie de nouvelles pièces) :
 
 
 
+---
+29/8
+Absolument. Voici un résumé complet et structuré de la réunion du 29 août.
 
+---
+
+### **Résumé de la Réunion de Mise à Jour du Projet**
+
+**Titre :** Mise à jour du projet - synchronisation des données et préparation de la présentation
+**Date :** 29 août
+**Participants :** Moi (Animateur), Denis, Anne Noire
+
+---
+
+#### **1. Objectif Principal de la Réunion**
+Faire le point sur l'avancement technique des différentes parties (Partie 1, 2, 3), résoudre des problèmes spécifiques (commission, tests) et organiser le travail collaboratif sur la présentation finale.
+
+---
+
+#### **2. Points Techniques Abordés et Problèmes Rencontrés**
+
+*   **Correctif de la Commission (Partie 3 - Factures) par Anoua :**
+    *   **Problème :** Le taux de commission était codé en dur (`9.9`) dans le programme `FACTURE`.
+    *   **Solution :** Anoua a adapté le code pour que la commission soit dynamique, récupérée depuis la table `EMPLOYEE` de la base de données. Le format en base est `V9(2)` (ex: `0.12`), ce qui a nécessité d'adapter la longueur des champs et la logique de conversion dans le programme COBOL.
+    *   **Action :** Anoua va tester ces modifications sur son environnement TSO.
+
+*   **Clarification de l'Affichage dans la Facture (Partie 3) :**
+    *   Suite à un feedback de Steve, il a été confirmé que la **commission ne doit pas être incluse dans le calcul du TOTAL** de la facture.
+    *   Le TOTAL correspond uniquement à `Sous-total + TVA`.
+    *   **Décision :** Il a été convenu de :
+        1.  Retirer la commission du calcul du TOTAL.
+        2.  Modifier l'intitulé à l'affichage pour plus de clarté (ex: "TOTAL (Subtotal + Sales Tax)").
+        3.  Déplacer l'affichage de la commission pour qu'elle apparaisse comme une information séparée, en dessous du TOTAL.
+
+*   **Stratégie sur les Tests Unitaires :**
+    *   **Fonctionnalité choisie :** Après discussion, il a été décidé de se concentrer sur les tests de la fonction `DATEFMT` (formatage des dates) pour la démonstration.
+    *   **Plan de test :** Tester des cas normaux (dates valides), des cas limites (années bissextiles, changement de siècle) et des cas d'erreur (dates invalides comme le 30 février) pour vérifier la robustesse de l'algorithme.
+    *   **Autre piste :** Les calculs (commissions, balances clients) ont été identifiés comme une autre cible potentielle pour des tests si le temps le permet.
+
+*   **Avancement de l'Animateur (Parties 1 & 2) :**
+    *   **Partie 1 (Insertion de nouveaux produits) :** Fonctionnelle. Démonstration de l'insertion des produits du fichier `NEWPROD` en base de données, incluant le formatage de la description et la conversion des devises via un fichier de `TAUX`. Un point d'attention a été soulevé concernant des IDs de produit (`P16`, `P17`) potentiellement conflictuels qui n'ont pas été insérés. Une vérification avec Steve est prévue.
+    *   **Partie 2 (Synchronisation des ventes) :** Fonctionnelle dans l'ensemble. Démonstration du programme qui lit les fichiers `VENTE_EU` et `VENTE_AS`, calcule le chiffre d'affaires par commande et met à jour les tables `ORDER`, `ITEM` et `CUSTOMER` (balance client). Un bug mineur d'affichage dans le log et une incohérence dans le calcul d'une balance client ont été notés pour investigation.
+
+*   **Avancement de Denis :**
+    *   Denis a commencé à travailler sur la présentation PowerPoint.
+    *   Il doit également corriger quelques bugs mineurs dans son module IHM, ce qu'il estime prendre une demi-journée.
+
+---
+
+#### **3. Coordination et Outils Collaboratifs**
+
+*   **Présentation Finale (PowerPoint) :**
+    *   **Décision :** Utilisation de **PowerPoint Online** (via OneDrive/Office 365) pour travailler à plusieurs sur le même fichier en temps réel et éviter les problèmes de version.
+    *   **Avantage :** Collaboration synchrone, historique des modifications.
+    *   **Inconvénient/Précaution :** Certaines fonctionnalités avancées (animations complexes, mise en forme très spécifique) peuvent être limitées ou mal interprétées dans la version en ligne. Une sauvegarde locale est recommandée.
+    *   **Action :** L'animateur a créé un dossier OneDrive partagé et y a uploadé une première version de la présentation. Le lien a été partagé avec l'équipe.
+
+*   **Gestion de Code :**
+    *   Rappel des bonnes pratiques pour `git commit` et `git push` via l'interface de VS Code.
+    *   Anoua a partagé son code corrigé pour la commission via GitHub.
+
+---
+
+#### **4. Prochaines Étapes et Planning**
+
+*   **Tâches immédiates :**
+    *   **Anoua :** Finaliser et tester les modifications sur la **Partie 3 (Commission)**. Commencer à implémenter les **tests unitaires** sur `DATEFMT`.
+    *   **Denis :** Finaliser les corrections de bugs sur son module. Contribuer au **PowerPoint**.
+    *   **Animateur :** Investiguer et corriger les bugs identifiés dans les **Parties 1 & 2**. Contribuer au **PowerPoint**.
+
+*   **Planning :**
+    *   L'équipe est consciente d'être en retard sur le planning initial.
+    *   **Week-end :** Denis et l'animateur se sont rendus disponibles pour travailler samedi et dimanche (à partir de 10h-10h30) pour rattraper le retard.
+    *   **Livrable :** La présentation et le code doivent être finalisés pour la soutenance prévue le mercredi suivant.
+
+---
+
+#### **5. Informations Diverses / Apartés**
+*   Discussion brève sur des problèmes techniques mineurs (affichage des numéros de ligne dans VSCode, mise en veille intempestive des machines).
+*   Confirmation de la disponibilité de l'équipe pour travailler le week-end.
 
 
 
