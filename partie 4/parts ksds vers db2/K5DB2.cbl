@@ -27,6 +27,12 @@
            05 VILLE-PARTK      PIC X(20).
 
        WORKING-STORAGE SECTION.
+
+      * INCLUSION DU DCLGEN PARTS
+           EXEC SQL
+               INCLUDE PARTS
+           END-EXEC.
+
            EXEC SQL
                INCLUDE SQLCA
            END-EXEC.
@@ -47,11 +53,7 @@
 
 
            PERFORM UNTIL FS-PARTK NOT EQUAL ZERO
-                READ PARTK
-                    AT END
-                         DISPLAY 'END OF FILE - FS-PARTK : '  FS-PARTK
-                    NOT AT END
-                        PERFORM INSRT
+               PERFORM READ-P
            END-PERFORM
 
            IF FS-PARTK NOT EQUAL 10 AND NOT EQUAL 0
@@ -67,12 +69,38 @@
 
            GOBACK.
 
+
+       READ-P.
+
+           READ PARTK
+            AT END
+               DISPLAY 'END OF FILE - FS-PARTK : '  FS-PARTK
+            NOT AT END
+                PERFORM INSRT
+           .
+
        INSRT.
+
+
+           MOVE ID-PARTK TO PARTPNO
+           MOVE NOM-PARTK TO PARTPNAME-TEXT
+           MOVE COULEUR-PARTK TO PARTCOLOR-TEXT
+           MOVE POIDS-PARTK TO PARTWEIGHT
+           MOVE VILLE-PARTK TO PARTCITY-TEXT
+
+
+           MOVE LENGTH OF NOM-PARTK TO PARTPNAME-LEN
+           MOVE LENGTH OF COULEUR-PARTK TO PARTCOLOR-LEN
+           MOVE LENGTH OF VILLE-PARTK TO PARTCITY-LEN
+
+
+
+
            EXEC SQL
-            INSERT INTO PARTS (PNO, PNAME, COLOR, WEIGHT, CITY)
-            VALUES (:ID-PARTK, :NOM-PARTK, :COULEUR-PARTK,
-            :POIDS-PARTK, :VILLE-PARTK)
-           END-EXEC
+            INSERT INTO API4.PARTS (PNO, PNAME, COLOR, WEIGHT, CITY)
+            VALUES (:PARTPNO, :PARTPNAME, :PARTCOLOR,
+            :PARTWEIGHT, :PARTCITY)
+           END-EXEC.
 
            EVALUATE TRUE
             WHEN SQLCODE = 0
@@ -81,6 +109,10 @@
                 DISPLAY "ERR ALREADY IN TABLE - ID : " ID-PARTK
             WHEN OTHER
                 DISPLAY "ERR SQL : " SQLCODE
+                DISPLAY 'SQLERRMC : ' SQLERRMC
+                DISPLAY 'SQLERRP : ' SQLERRP
+                DISPLAY PARTPNO ' _ ' PARTPNAME  ' _ '  PARTCOLOR  ' _ '
+                PARTWEIGHT ' _ ' PARTCITY
            END-EVALUATE
            .
 

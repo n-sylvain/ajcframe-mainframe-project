@@ -39,7 +39,7 @@
        77 WS-TEMPS      PIC S9(15) COMP-3.
        77 WS-RES        PIC S9(10) VALUE ZERO.
        77 WS-RESP       PIC S9(8) COMP.
-
+       77 WS-PROG       PIC X(8)  VALUE 'A5PART'.
 002540
 002550 LINKAGE SECTION.
 002560 01 DFHCOMMAREA.
@@ -165,17 +165,12 @@
 
 
                         EXEC CICS XCTL
-                            PROGRAM('A5PART')
+                            PROGRAM(WS-PROG)
 
                            COMMAREA(DFHCOMMAREA)
                             LENGTH(LENGTH OF DFHCOMMAREA)
                             RESP (WS-CD-ERR)
                         END-EXEC
-
-
-
-
-
 
 
 
