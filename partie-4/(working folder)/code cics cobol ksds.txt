@@ -1,0 +1,197 @@
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. LIRE-KSDS.
+
+       ENVIRONMENT DIVISION.
+       INPUT-OUTPUT SECTION.
+       FILE-CONTROL.
+           SELECT KSDS-FILE
+               ASSIGN TO 'FICHIERKSDS'
+               ORGANIZATION IS INDEXED
+               ACCESS MODE IS DYNAMIC
+               RECORD KEY IS KSDS-KEY
+               FILE STATUS IS WS-FILE-STATUS.
+
+       DATA DIVISION.
+       FILE SECTION.
+       FD KSDS-FILE.
+       01 KSDS-RECORD.
+           05 KSDS-KEY     PIC X(10).
+           05 KSDS-DATA    PIC X(70).
+
+       WORKING-STORAGE SECTION.
+       01 WS-FILE-STATUS  PIC XX.
+       01 WS-RESP         PIC S9(8) COMP.
+       01 WS-LENGTH       PIC S9(4) COMP VALUE 80.
+       01 WS-ID           PIC X(10) VALUE '1234567890'.
+       01 WS-RECORD       PIC X(80).
+
+       PROCEDURE DIVISION.
+           DISPLAY 'Recherche de l''ID : ' WS-ID
+
+           EXEC CICS READ FILE('FICHIERKSDS')
+                      INTO(WS-RECORD)
+                      RIDFLD(WS-ID)
+                      RESP(WS-RESP)
+                      LENGTH(WS-LENGTH)
+                      EQUAL
+           END-EXEC
+
+           IF WS-RESP = DFHRESP(NORMAL)
+               DISPLAY 'Enregistrement trouvé : ' WS-RECORD
+           ELSE
+               DISPLAY 'ID non trouvé ou erreur : ' WS-RESP
+           END-IF
+
+           EXEC CICS RETURN END-EXEC.
+
+
+
+
+CEDA DEFINE MAPSET(MS5CONX)   GROUP(api4)     
+CEDA INSTALL MAPSET(MS5CONX) GROUP(api4) 
+
+
+
+CEDA DEFINE MAPSET(MS5PART)   GROUP(api4)     
+CEDA INSTALL MAPSET(MS5PART) GROUP(api4) 
+
+
+
+CEDA DEL MAPSET(MS5CONX) GROUP(api4)
+CEMT DISCARD MAPSET(MS5CONX)
+
+
+
+ 
+
+
+CECI SEND MAP(MAP5PAR) mapset(MS5PART)
+CECI SEND MAP(MAP5COX) mapset(MS5CONX)
+
+
+
+Pour prendre en compte la nouvelle version de prog : 
+CEMT SET PROGRAM(A5CNX) NE
+
+CEMT SET PROGRAM(A5PART) NE
+
+
+ceda def prog(A5CNX) group(api4)
+ceda ins prog(A5CNX) group(api4)
+ceda def trans(T5CO) prog(A5CNX) group(api4) DTIMOUT(000020)
+ceda ins trans(T5CO) group(api4) 
+
+cemt i file(a5*)
+
+
+
+ceda def prog(A5PART) group(api4)
+ceda ins prog(A5PART) group(api4)
+ceda def trans(T5PA) prog(A5PART) group(api4) DTIMOUT(000020)
+ceda ins trans(T5PA) group(api4) 
+
+
+
+CEMT S FILE(A5PARK) ENABLED
+CEMT S FILE(A5PARK) OPENED
+
+
+
+CEDA DEFINE FILE(A5EMPK) GROUP(API4)
+     
+     DSNAME('API4.AJC.EMPLOYE.KSDS')
+     FILETYPE(VSAM)
+     ACCESS(UPDATE)
+     STATUS(ENABLED)
+
+
+CEDA INS FILE(A5EMPK)
+     DSNAME('API4.AJC.EMPLOYE.KSDS')
+     FILETYPE(DATASET)
+     ACCESSMODE(UPDATE)
+     STATUS(ENABLED)
+
+
+
+
+
+
+
+
+
+CEDA DEFINE FILE(A5PARK) GROUP(API4)
+     DSNAME('API4.PROJET.NEWPARTS.KSDS')
+     FILETYPE(VSAM)
+     ACCESS(UPDATE)
+     STATUS(ENABLED)
+
+
+CEDA INS FILE(A5PARK) GROUP(API4)
+     DSNAME('API4.PROJET.NEWPARTS.KSDS')
+     FILETYPE(DATASET)
+     ACCESSMODE(UPDATE)
+     STATUS(ENABLED)
+
+
+
+
+
+
+C:\Users\ten_d\Documents\FROMATION GRANDS SYSTEMES\10-PROJET FINAL\partie 4\IHM\JCCNX.jcl
+'API4.SOURCE.JCL(JCCNX)'
+
+
+C:\Users\ten_d\Documents\FROMATION GRANDS SYSTEMES\10-PROJET FINAL\partie 4\IHM\JCPARTS.jcl
+'API4.SOURCE.JCL(JCPARTS)'
+
+
+
+
+
+
+C:\Users\ten_d\Documents\FROMATION GRANDS SYSTEMES\10-PROJET FINAL\partie 4\IHM\A5CNX.cbl
+'API4.SOURCE.COBOL(A5CNX)'
+
+
+
+C:\Users\ten_d\Documents\FROMATION GRANDS SYSTEMES\10-PROJET FINAL\partie 4\IHM\A5PART.cbl
+'API4.SOURCE.COBOL(A5PART)'
+
+ 
+
+
+C:\Users\ten_d\Documents\FROMATION GRANDS SYSTEMES\10-PROJET FINAL\partie 4\IHM\BMS\MS5CONX.bms
+'API4.SOURCE.BMS(MS5CONX)'
+
+
+C:\Users\ten_d\Documents\FROMATION GRANDS SYSTEMES\10-PROJET FINAL\partie 4\IHM\BMS\MS5PART.bms
+'API4.SOURCE.BMS(MS5PART)'
+
+
+
+
+
+
+C:\Users\ten_d\Documents\FROMATION GRANDS SYSTEMES\10-PROJET FINAL\partie 4\parts ksds vers db2\J5CKDB.jcl
+'API4.SOURCE.JCL(J5CKDB)'
+
+
+C:\Users\ten_d\Documents\FROMATION GRANDS SYSTEMES\10-PROJET FINAL\partie 4\parts ksds vers db2\K5DB2.cbl
+'API4.SOURCE.DB2(K5DB2)'
+
+
+
+'API4.SOURCE.DCLGEN(PARTS)'
+
+
+
+CEMT DISCARD TRANSACTION(T5CO)
+CEMT SET TRANSACTION(T5CO) DISABLED
+
+
+CEMT DISCARD PROGRAM(A5CNX)
+CEMT SET PROGRAM(A5CNX) DISABLED
+
+
+
+cemt s file(a5park)

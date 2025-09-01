@@ -1,0 +1,53 @@
+MS5CONX  DFHMSD TYPE=&SYSPARM,MODE=INOUT,LANG=COBOL,EXTATT=YES,        0
+               CTRL=(FREEKB,FRSET),STORAGE=AUTO             
+*********************************************************************** 
+MAP5COX  DFHMDI SIZE=(24,80),LINE=1,COLUMN=1                            
+*********************************************************************** 
+         DFHMDF POS=(1,1),                                             0
+               LENGTH=79,                                              0
+               INITIAL='*********************CONNEXION - INSERER DE NOU0
+               VELLES PIECES********************',                     0
+               ATTRB=(ASKIP,PROT)                                       
+** INSTRUCTIONS                                                         
+*********************************************************************** 
+** LOGIN                                                                
+*********************************************************************** 
+***********************************************************************
+ DFHMDF                         POS=(7,12),LENGTH=9,                   0
+               INITIAL='LOGIN* : ',                                    0
+               ATTRB=PROT,                                             0
+               COLOR=GREEN
+LOGID DFHMDF          POS=(7,22),LENGTH=5,                             0
+               ATTRB=(UNPROT,IC),                                      0
+               COLOR=TURQUOISE,                                        0
+               PICIN='X(05)',                                          0
+               PICOUT='X(05)'
+ DFHMDF                         POS=(7,28),LENGTH=1,                   0
+               ATTRB=ASKIP
+***********************************************************************
+ DFHMDF                         POS=(9,12),LENGTH=16,                  0
+               INITIAL='MOT DE PASSE* : ',                             0
+               ATTRB=PROT,                                             0
+               COLOR=GREEN
+PWD DFHMDF                POS=(9,29),LENGTH=15,                        0
+               ATTRB=(UNPROT,DRK),                                     0
+               COLOR=TURQUOISE,                                        0
+               PICIN='X(15)',                                          0
+               PICOUT='X(15)'
+ DFHMDF                         POS=(9,45),LENGTH=1,                   0
+               ATTRB=ASKIP
+***********************************************************************
+ DFHMDF                         POS=(15,1),LENGTH=79,                  0
+               INITIAL='***********************************************0
+               ********************************',                      0
+               ATTRB=PROT
+ DFHMDF                         POS=(16,1),LENGTH=35,                  0
+               INITIAL='* CLR : FIN , ENTER : VALIDATION  *',          0
+               ATTRB=PROT
+ DFHMDF                         POS=(17,1),LENGTH=12,                  0
+               INITIAL='* MESSAGE : ',                                 0
+               ATTRB=PROT
+MESS1 DFHMDF          POS=(17,14),LENGTH=66,                           0
+               ATTRB=(PROT,BRT)
+         DFHMSD TYPE=FINAL                                              
+         END                                                            
