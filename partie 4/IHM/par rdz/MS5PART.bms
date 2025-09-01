@@ -19,8 +19,7 @@ MAP5PAR  DFHMDI SIZE=(24,80),                                          X
                ATTRB=PROT,                                             X
                COLOR=GREEN
 ID DFHMDF                   POS=(3,27),LENGTH=2,                       X
-               ATTRB=(UNPROT,IC,FSET),                                 X
-               VALIDN=(MUSTENTER),                                     X
+               ATTRB=(UNPROT,IC),                                      X
                COLOR=TURQUOISE,                                        X
                PICIN='X(2)',                                           X
                PICOUT='X(2)'
@@ -31,8 +30,7 @@ ID DFHMDF                   POS=(3,27),LENGTH=2,                       X
                ATTRB=PROT,                                             X
                COLOR=GREEN
 NOM DFHMDF                POS=(5,19),LENGTH=30,                        X
-               ATTRB=(UNPROT,FSET),                                    X
-               VALIDN=(MUSTENTER),                                     X
+               ATTRB=UNPROT,                                           X
                COLOR=TURQUOISE,                                        X
                PICIN='X(30)',                                          X
                PICOUT='X(30)'
@@ -41,9 +39,10 @@ NOM DFHMDF                POS=(5,19),LENGTH=30,                        X
 ***********************************************************************
  DFHMDF                         POS=(7,11),LENGTH=10,                  X
                INITIAL='COULEUR : ',                                   X
+               ATTRB=PROT,                                             X
                COLOR=GREEN
 COUL DFHMDF             POS=(7,22),LENGTH=20,                          X
-               ATTRB=(UNPROT,FSET),                                    X
+               ATTRB=UNPROT,                                           X
                COLOR=TURQUOISE,                                        X
                PICIN='X(20)',                                          X
                PICOUT='X(20)'
@@ -55,7 +54,7 @@ COUL DFHMDF             POS=(7,22),LENGTH=20,                          X
                ATTRB=PROT,                                             X
                COLOR=GREEN
 POIDS DFHMDF          POS=(9,20),LENGTH=2,                             X
-               ATTRB=(NUM,UNPROT,FSET),                                X
+               ATTRB=(NUM,UNPROT),                                     X
                COLOR=TURQUOISE,                                        X
                PICIN='9(2)',                                           X
                PICOUT='Z(2)'
@@ -67,10 +66,10 @@ POIDS DFHMDF          POS=(9,20),LENGTH=2,                             X
                ATTRB=PROT,                                             X
                COLOR=GREEN
 VILLE DFHMDF          POS=(11,20),LENGTH=20,                           X
-               ATTRB=(UNPROT,FSET),                                    X
+               ATTRB=UNPROT,                                           X
                COLOR=TURQUOISE,                                        X
                PICIN='X(20)',                                          X
-               PICOUT='X(20)'                                          
+               PICOUT='X(20)'
  DFHMDF                         POS=(11,41),LENGTH=1,                  X
                ATTRB=ASKIP
  DFHMDF                         POS=(13,1),LENGTH=79,                  X

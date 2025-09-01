@@ -81,7 +81,7 @@ ceda ins prog(A5CNX) group(api4)
 ceda def trans(T5CO) prog(A5CNX) group(api4) DTIMOUT(000020)
 ceda ins trans(T5CO) group(api4) 
 
-
+cemt i file(a5*)
 
 
 

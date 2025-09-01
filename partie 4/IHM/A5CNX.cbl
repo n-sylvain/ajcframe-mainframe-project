@@ -44,6 +44,7 @@
 002550 LINKAGE SECTION.
 002560 01 DFHCOMMAREA.
            05 ERR-MESS-LK PIC X(60).
+           05 SEC-SMPDF56 PIC X(10).
 002570
 002600 PROCEDURE DIVISION USING DFHCOMMAREA.
 002800********************************************************
@@ -157,16 +158,14 @@
                    MOVE WS-PREN-REC TO  MESS1O
                    IF WS-PREN-REC = PWDI THEN
                        MOVE LOW-VALUE TO MAP5COXO
-
-                        EXEC CICS SEND CONTROL
-                            ERASE
-                            FREEKB
+                       MOVE 'EDGSJ566' TO SEC-SMPDF56
+                       EXEC CICS SEND CONTROL
+                           ERASE
+                           FREEKB
                        END-EXEC
 
-
-                        EXEC CICS XCTL
-                            PROGRAM(WS-PROG)
-
+                       EXEC CICS XCTL
+                           PROGRAM(WS-PROG)
                            COMMAREA(DFHCOMMAREA)
                             LENGTH(LENGTH OF DFHCOMMAREA)
                             RESP (WS-CD-ERR)

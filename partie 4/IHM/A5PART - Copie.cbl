@@ -16,7 +16,6 @@
 001900 01 ZONE.
 002100     05 INFOS         PIC X(62).
            05 ID-COMM       PIC X(2).
-           05 SEC-NUM       PIC X(10).
 002310
 002397 01 ERR-MESS PIC X(60) VALUE 'FIN'.
 002399 77 WS-CD-ERR     PIC 9(2).
@@ -45,65 +44,47 @@
 002550 LINKAGE SECTION.
 002560 01 DFHCOMMAREA.
            05 ERR-MESS-LK PIC X(60).
-           05 SEC-SMPDF56 PIC X(10).
 002570
 002600 PROCEDURE DIVISION USING DFHCOMMAREA.
 002800********************************************************
 002900* EIBCALEN CORRESPOND A LAL LG DES PARAMETRES TRANSMIS
 003000* SI EIBCALEN = 0 ==> PREMIERE FOIS
 003100********************************************************
-003110
-           IF SEC-SMPDF56 = 'EDGSJ566' THEN
-               MOVE SEC-SMPDF56 TO SEC-NUM
-           END-IF
+003110      EVALUATE EIBTRNID
+003120       WHEN 'T5PA'
 
+003200        IF EIBCALEN = ZERO  THEN
+003210         MOVE LOW-VALUE TO MAP5PARO
+               PERFORM ENVOI-ECRAN
+              ELSE
+                   MOVE 'EIB  sup  ZERO' TO MESS1O
 
-           EVALUATE EIBTRNID
-003120         WHEN 'T5PA'
-
-                   IF EIBCALEN = ZERO  THEN
-
-                       MOVE LOW-VALUE TO MAP5PARO
-                       PERFORM ENVOI-ECRAN
-
-                   ELSE
-                       MOVE 'EIB  sup  ZERO' TO MESS1O
-                   END-IF
+003400        END-IF
 003500
 003600********************************************************
 003700* EIBAID PERMET DE RECUPERER LA TOUCHE APPUYEE
 003800* DFHCLEAR ==> ESC
 003900********************************************************
-004000             IF EIBAID = DFHCLEAR
-004100                 MOVE 'BYE !!' TO ERR-MESS
-004200                 PERFORM FIN-TOTALE
-004300             END-IF
+004000        IF EIBAID = DFHCLEAR
+004100              MOVE 'BYE !!' TO ERR-MESS
+004200              PERFORM FIN-TOTALE
+004300        END-IF
 004301
-004312             IF EIBAID = DFHENTER
-004313                 PERFORM LECT-ECRAN
-004327             END-IF
+004312        IF EIBAID = DFHENTER
+004313             PERFORM LECT-ECRAN
+004327        END-IF
 004328
-005473         WHEN OTHER
-                   MOVE LOW-VALUE TO MAP5PARO
-                   PERFORM ENVOI-ECRAN
-
-005477     END-EVALUATE
+005473       WHEN OTHER
+005476         MOVE LOW-VALUE TO MAP5PARO
+               PERFORM ENVOI-ECRAN
+005477      END-EVALUATE
 005478
-008500     .
+008500      .
 008700
 010610******************************************************************
 010620*                       LISTE DES PARAGRAPHES
 010640******************************************************************
-010650
-       CNNX.
-           IF SEC-NUM = 'EDGSJ566' THEN
-               CONTINUE
-           END-IF
-
-
-           .
-
-       ENVOI-ECRAN.
+010650 ENVOI-ECRAN.
 010651
 010665******************************************************************
 010666*       ICI ON ENVOIE LES DIFFERNTES MAPS CONSTITUANT LE MAPSET
@@ -202,9 +183,22 @@
 
            IF WS-CONT-OP = ZERO THEN
 
-               PERFORM INIT-K
+               INITIALIZE ENREG-KSDS
+               MOVE IDI TO WS-IDK
+               MOVE NOMI TO WS-NOMK
+               MOVE COULI TO WS-COULEURK
+               MOVE POIDSI TO WS-POIDSK
+               MOVE VILLEI TO WS-VILLEK
 
-               MOVE DFHRED TO MESS1C
+
+      *         EXEC CICS WRITE
+      *            FILE('A5PARK')
+      *             FROM(ENREG-KSDS)
+      *             RIDFLD(IDI)
+      *             LENGTH(LENGTH OF ENREG-KSDS)
+      *             RESP(WS-RESP)
+      *         END-EXEC
+      *
 
                EXEC CICS READ FILE('A5PARK')
                    INTO(ENREG-KSDS)
@@ -214,42 +208,73 @@
                    EQUAL
                END-EXEC
 
+               IF WS-RESP = DFHRESP(NORMAL)
 
+               ELSE
+
+               END-IF
 
                EVALUATE WS-RESP
                    WHEN  DFHRESP(NORMAL)
-                       PERFORM RWRT
+
+
                    WHEN DFHRESP(NOTFND)
-                       EXEC CICS
-                           WRITE DATASET ('A5PARK')
-                               FROM (ENREG-KSDS)
-                               RIDFLD (IDI)
-                               RESP (WS-RESP3)
-                       END-EXEC
-
-                       EVALUATE TRUE
-                           WHEN WS-RESP3 = DFHRESP(NORMAL)
-                               MOVE 'Insertion réussie.'
-                                TO MESS1O
-                               MOVE DFHDFT TO MESS1C
-                           WHEN OTHER
-                                INITIALIZE ZONE-ED
-                                MOVE 'RESP' TO ERR-TYPE
-                                MOVE WS-RESP3 TO ERR-ED
-                                MOVE ZONE-ED TO MESS1O
-                       END-EVALUATE
-
 
                    WHEN OTHER
 
-                       INITIALIZE ZONE-ED
-                       MOVE 'RESP' TO ERR-TYPE
-                       MOVE WS-RESP TO ERR-ED
-                       MOVE ZONE-ED TO MESS1O
-
-
                END-EVALUATE
 
+
+                EXEC CICS
+                  WRITE DATASET ('A5PARK')
+                        FROM (ENREG-KSDS)
+                        RIDFLD (IDI)
+                        RESP (WS-RESP)
+                END-EXEC
+
+
+
+
+               MOVE DFHRED TO MESS1C
+
+               EVALUATE TRUE
+                   WHEN WS-RESP = DFHRESP(NOTFND)
+                        MOVE 'Issss.'
+                        TO MESS1O
+                   WHEN WS-RESP = DFHRESP(NORMAL)
+                       MOVE 'Insertion réussie.'
+                        TO MESS1O
+                       MOVE DFHDFT TO MESS1C
+                   WHEN WS-RESP = DFHRESP(DUPKEY) OR
+                   WS-RESP = DFHRESP(DUPREC) OR
+                   WS-RESP = 14
+                       MOVE 'Annulation pour cause de doublon.'
+                       TO MESS1O
+
+
+      *               EXEC CICS READ FILE('A5PARK')
+      *                     INTO(ENREG-KSDS)
+      *                     RIDFLD(IDI)
+      *                      RESP(WS-RESP3)
+      *                 END-EXEC
+      *
+      *                 EVALUATE TRUE
+      *                     WHEN WS-RESP3  = DFHRESP(NORMAL)
+      *                         PERFORM RWRT
+      *                     WHEN OTHER
+      *                         INITIALIZE ZONE-ED
+      *                         MOVE 'RESP' TO ERR-TYPE
+      *                         MOVE WS-RESP TO ERR-ED
+      *                         MOVE ZONE-ED TO MESS1O
+      *
+      *                 END-EVALUATE
+      *
+                   WHEN OTHER
+                        INITIALIZE ZONE-ED
+                        MOVE 'RESP' TO ERR-TYPE
+                        MOVE WS-RESP TO ERR-ED
+                        MOVE ZONE-ED TO MESS1O
+               END-EVALUATE
 
            END-IF
 
@@ -257,53 +282,20 @@
 
            .
 
-
-       INIT-K.
-
-           INITIALIZE ENREG-KSDS
-           MOVE IDI TO WS-IDK
-           MOVE NOMI TO WS-NOMK
-           MOVE COULI TO WS-COULEURK
-           MOVE POIDSI TO WS-POIDSK
-           MOVE VILLEI TO WS-VILLEK
-
-           .
-
-
        RWRT.
 
-           EXEC CICS READ
+           EXEC CICS REWRITE
                 FILE('A5PARK')
-                INTO(ENREG-KSDS)
-                RIDFLD(IDI)
-                UPDATE
+                FROM(ENREG-KSDS)
                 RESP(WS-RESP2)
            END-EXEC
 
-           PERFORM INIT-K
 
            EVALUATE TRUE
                WHEN WS-RESP2 = DFHRESP(NORMAL)
-
-                   EXEC CICS REWRITE
-                       FILE('A5PARK')
-                       FROM(ENREG-KSDS)
-                       LENGTH(LENGTH OF ENREG-KSDS)
-                       RESP(WS-RESP3)
-                   END-EXEC
-
-                   EVALUATE TRUE
-                       WHEN WS-RESP3 = DFHRESP(NORMAL)
-                           MOVE 'MAJ Réussie.'
-                           TO MESS1O
-                           MOVE DFHDFT TO MESS1C
-                       WHEN OTHER
-                            INITIALIZE ZONE-ED
-                            MOVE 'RESP' TO ERR-TYPE
-                            MOVE WS-RESP3 TO ERR-ED
-                            MOVE ZONE-ED TO MESS1O
-                   END-EVALUATE
-
+                   MOVE 'MAJ reussie dans le fichier KSDS.'
+                   TO MESS1O
+                   MOVE DFHDFT TO MESS1C
                WHEN OTHER
                    INITIALIZE ZONE-ED
                    MOVE 'RESP' TO ERR-TYPE
