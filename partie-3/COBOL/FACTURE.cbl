@@ -152,7 +152,8 @@
 015200 01 LIGNE-CADRE-ADRESSE-BAS.
 015300     05 FILLER                PIC X(1) VALUE '|'.
 015400     05 FILLER                PIC X(78) VALUE SPACES.
-015500     05 FILLER                PIC X(35) VALUE ALL '-'.
+015600     05 FILLER                PIC X(1) VALUE '+'.
+015500     05 FILLER                PIC X(34) VALUE ALL '-'.
 015600     05 FILLER                PIC X(1) VALUE '+'.
 015700     05 FILLER                PIC X(3) VALUE SPACES.
 015800     05 FILLER                PIC X(1) VALUE '|'.
