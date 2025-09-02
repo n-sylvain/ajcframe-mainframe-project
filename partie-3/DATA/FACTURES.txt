@@ -14,16 +14,16 @@
 |    Your contact within the department Sales                : Doe                 , John                             |
 |                                                                                                                     |
 |   +-------------------------------------------------------------------------------------------------------------+   |
-|   |  P_NO DESCRIPTION                          QUANTITY       PRICE   LINE TOTAL                                |   |
+|   |  P_NO DESCRIPTION                  QUANTITY    PRICE        LINE TOTAL                                      |   |
 |   |  P01  Mouse Bluetooth                 10       25,99         259,90                                         |   |
 |   |  P03  Router                          15       35,75         536,25                                         |   |
 |   +-------------------------------------------------------------------------------------------------------------+   |
 |                                                                                                                     |
-|                                                                                  SUB TOTAL    :    796,15   USD     |
-|                                                                              SALES TAX (20,0%):    159,23   USD     |
-|                                                                             COMMISSION ( 9,9%):     78,81   USD     |
+|                                                                            SUB TOTAL          :    796,15   USD     |
+|                                                                            SALES TAX (20,0%)  :    159,23   USD     |
+|                                                                            COMMISSION (0,03%) :     23,88   USD     |
 |                                                                                                                     |
-|                                                                                  TOTAL        :  1.034,19   USD     |
+|                                                                 TOTAL (SUB TOTAL + SALES TAX) :    955,38   USD     |
 +---------------------------------------------------------------------------------------------------------------------+
 
 
@@ -45,15 +45,15 @@
 |    Your contact within the department Marketing            : Smith               , Alice                            |
 |                                                                                                                     |
 |   +-------------------------------------------------------------------------------------------------------------+   |
-|   |  P_NO DESCRIPTION                          QUANTITY       PRICE   LINE TOTAL                                |   |
+|   |  P_NO DESCRIPTION                  QUANTITY    PRICE        LINE TOTAL                                      |   |
 |   |  P03  Router                          10       35,75         357,50                                         |   |
 |   +-------------------------------------------------------------------------------------------------------------+   |
 |                                                                                                                     |
-|                                                                                  SUB TOTAL    :    357,50   USD     |
-|                                                                              SALES TAX (20,0%):     71,50   USD     |
-|                                                                             COMMISSION ( 9,9%):     35,39   USD     |
+|                                                                            SUB TOTAL          :    357,50   USD     |
+|                                                                            SALES TAX (20,0%)  :     71,50   USD     |
+|                                                                            COMMISSION (0,02%) :      7,15   USD     |
 |                                                                                                                     |
-|                                                                                  TOTAL        :    464,39   USD     |
+|                                                                 TOTAL (SUB TOTAL + SALES TAX) :    429,00   USD     |
 +---------------------------------------------------------------------------------------------------------------------+
 
 
@@ -75,15 +75,15 @@
 |    Your contact within the department Engineering          : Johnson             , David                            |
 |                                                                                                                     |
 |   +-------------------------------------------------------------------------------------------------------------+   |
-|   |  P_NO DESCRIPTION                          QUANTITY       PRICE   LINE TOTAL                                |   |
+|   |  P_NO DESCRIPTION                  QUANTITY    PRICE        LINE TOTAL                                      |   |
 |   |  P05  External Hard Drive             10       50,25         502,50                                         |   |
 |   +-------------------------------------------------------------------------------------------------------------+   |
 |                                                                                                                     |
-|                                                                                  SUB TOTAL    :    502,50   USD     |
-|                                                                              SALES TAX (20,0%):    100,50   USD     |
-|                                                                             COMMISSION ( 9,9%):     49,74   USD     |
+|                                                                            SUB TOTAL          :    502,50   USD     |
+|                                                                            SALES TAX (20,0%)  :    100,50   USD     |
+|                                                                            COMMISSION (0,05%) :     25,12   USD     |
 |                                                                                                                     |
-|                                                                                  TOTAL        :    652,74   USD     |
+|                                                                 TOTAL (SUB TOTAL + SALES TAX) :    603,00   USD     |
 +---------------------------------------------------------------------------------------------------------------------+
 
 
@@ -105,17 +105,17 @@
 |    Your contact within the department Sales                : Doe                 , John                             |
 |                                                                                                                     |
 |   +-------------------------------------------------------------------------------------------------------------+   |
-|   |  P_NO DESCRIPTION                          QUANTITY       PRICE   LINE TOTAL                                |   |
+|   |  P_NO DESCRIPTION                  QUANTITY    PRICE        LINE TOTAL                                      |   |
 |   |  P01  Mouse Bluetooth                  3       25,99          77,97                                         |   |
 |   |  P03  Router                           2       35,75          71,50                                         |   |
 |   |  P04  Keyboard                         5       10,00          50,00                                         |   |
 |   +-------------------------------------------------------------------------------------------------------------+   |
 |                                                                                                                     |
-|                                                                                  SUB TOTAL    :    199,47   USD     |
-|                                                                              SALES TAX (20,0%):     39,89   USD     |
-|                                                                             COMMISSION ( 9,9%):     19,74   USD     |
+|                                                                            SUB TOTAL          :    199,47   USD     |
+|                                                                            SALES TAX (20,0%)  :     39,89   USD     |
+|                                                                            COMMISSION (0,03%) :      5,98   USD     |
 |                                                                                                                     |
-|                                                                                  TOTAL        :    259,10   USD     |
+|                                                                 TOTAL (SUB TOTAL + SALES TAX) :    239,36   USD     |
 +---------------------------------------------------------------------------------------------------------------------+
 
 
@@ -137,16 +137,16 @@
 |    Your contact within the department Marketing            : Smith               , Alice                            |
 |                                                                                                                     |
 |   +-------------------------------------------------------------------------------------------------------------+   |
-|   |  P_NO DESCRIPTION                          QUANTITY       PRICE   LINE TOTAL                                |   |
+|   |  P_NO DESCRIPTION                  QUANTITY    PRICE        LINE TOTAL                                      |   |
 |   |  P02  Battery                         10       15,49         154,90                                         |   |
 |   |  P03  Router                           2       35,75          71,50                                         |   |
 |   +-------------------------------------------------------------------------------------------------------------+   |
 |                                                                                                                     |
-|                                                                                  SUB TOTAL    :    226,40   USD     |
-|                                                                              SALES TAX (20,0%):     45,28   USD     |
-|                                                                             COMMISSION ( 9,9%):     22,41   USD     |
+|                                                                            SUB TOTAL          :    226,40   USD     |
+|                                                                            SALES TAX (20,0%)  :     45,28   USD     |
+|                                                                            COMMISSION (0,02%) :      4,52   USD     |
 |                                                                                                                     |
-|                                                                                  TOTAL        :    294,09   USD     |
+|                                                                 TOTAL (SUB TOTAL + SALES TAX) :    271,68   USD     |
 +---------------------------------------------------------------------------------------------------------------------+
 
 
@@ -168,17 +168,17 @@
 |    Your contact within the department Engineering          : Johnson             , David                            |
 |                                                                                                                     |
 |   +-------------------------------------------------------------------------------------------------------------+   |
-|   |  P_NO DESCRIPTION                          QUANTITY       PRICE   LINE TOTAL                                |   |
+|   |  P_NO DESCRIPTION                  QUANTITY    PRICE        LINE TOTAL                                      |   |
 |   |  P02  Battery                          3       15,49          46,47                                         |   |
 |   |  P03  Router                           5       35,75         178,75                                         |   |
 |   |  P05  External Hard Drive              7       50,25         351,75                                         |   |
 |   +-------------------------------------------------------------------------------------------------------------+   |
 |                                                                                                                     |
-|                                                                                  SUB TOTAL    :    576,97   USD     |
-|                                                                              SALES TAX (20,0%):    115,39   USD     |
-|                                                                             COMMISSION ( 9,9%):     57,12   USD     |
+|                                                                            SUB TOTAL          :    576,97   USD     |
+|                                                                            SALES TAX (20,0%)  :    115,39   USD     |
+|                                                                            COMMISSION (0,06%) :     34,61   USD     |
 |                                                                                                                     |
-|                                                                                  TOTAL        :    749,48   USD     |
+|                                                                 TOTAL (SUB TOTAL + SALES TAX) :    692,36   USD     |
 +---------------------------------------------------------------------------------------------------------------------+
 
 
@@ -200,16 +200,16 @@
 |    Your contact within the department Marketing            : Brown               , Michael                          |
 |                                                                                                                     |
 |   +-------------------------------------------------------------------------------------------------------------+   |
-|   |  P_NO DESCRIPTION                          QUANTITY       PRICE   LINE TOTAL                                |   |
+|   |  P_NO DESCRIPTION                  QUANTITY    PRICE        LINE TOTAL                                      |   |
 |   |  P11  Headphones                       5       30,50         152,50                                         |   |
 |   |  P15  Motherboard                     10       66,00         660,00                                         |   |
 |   +-------------------------------------------------------------------------------------------------------------+   |
 |                                                                                                                     |
-|                                                                                  SUB TOTAL    :    812,50   USD     |
-|                                                                              SALES TAX (20,0%):    162,50   USD     |
-|                                                                             COMMISSION ( 9,9%):     80,43   USD     |
+|                                                                            SUB TOTAL          :    812,50   USD     |
+|                                                                            SALES TAX (20,0%)  :    162,50   USD     |
+|                                                                            COMMISSION (0,04%) :     32,50   USD     |
 |                                                                                                                     |
-|                                                                                  TOTAL        :  1.055,43   USD     |
+|                                                                 TOTAL (SUB TOTAL + SALES TAX) :    975,00   USD     |
 +---------------------------------------------------------------------------------------------------------------------+
 
 
@@ -231,16 +231,16 @@
 |    Your contact within the department Sales                : Williams            , Mary                             |
 |                                                                                                                     |
 |   +-------------------------------------------------------------------------------------------------------------+   |
-|   |  P_NO DESCRIPTION                          QUANTITY       PRICE   LINE TOTAL                                |   |
+|   |  P_NO DESCRIPTION                  QUANTITY    PRICE        LINE TOTAL                                      |   |
 |   |  P14  Laptop                           1      899,99         899,99                                         |   |
 |   |  P18  Network Switch                   4       22,61          90,44                                         |   |
 |   +-------------------------------------------------------------------------------------------------------------+   |
 |                                                                                                                     |
-|                                                                                  SUB TOTAL    :    990,43   USD     |
-|                                                                              SALES TAX (20,0%):    198,08   USD     |
-|                                                                             COMMISSION ( 9,9%):     98,05   USD     |
+|                                                                            SUB TOTAL          :    990,43   USD     |
+|                                                                            SALES TAX (20,0%)  :    198,08   USD     |
+|                                                                            COMMISSION (0,04%) :     39,61   USD     |
 |                                                                                                                     |
-|                                                                                  TOTAL        :  1.286,56   USD     |
+|                                                                 TOTAL (SUB TOTAL + SALES TAX) :  1.188,51   USD     |
 +---------------------------------------------------------------------------------------------------------------------+
 
 
@@ -262,16 +262,16 @@
 |    Your contact within the department Sales                : Williams            , Mary                             |
 |                                                                                                                     |
 |   +-------------------------------------------------------------------------------------------------------------+   |
-|   |  P_NO DESCRIPTION                          QUANTITY       PRICE   LINE TOTAL                                |   |
+|   |  P_NO DESCRIPTION                  QUANTITY    PRICE        LINE TOTAL                                      |   |
 |   |  P10  Usb Flash Drive                  1       16,50          16,50                                         |   |
 |   |  P12  Micro                            4        3,86          15,44                                         |   |
 |   +-------------------------------------------------------------------------------------------------------------+   |
 |                                                                                                                     |
-|                                                                                  SUB TOTAL    :     31,94   USD     |
-|                                                                              SALES TAX (20,0%):      6,38   USD     |
-|                                                                             COMMISSION ( 9,9%):      3,16   USD     |
+|                                                                            SUB TOTAL          :     31,94   USD     |
+|                                                                            SALES TAX (20,0%)  :      6,38   USD     |
+|                                                                            COMMISSION (0,04%) :      1,27   USD     |
 |                                                                                                                     |
-|                                                                                  TOTAL        :     41,48   USD     |
+|                                                                 TOTAL (SUB TOTAL + SALES TAX) :     38,32   USD     |
 +---------------------------------------------------------------------------------------------------------------------+
 
 
