@@ -1,8 +1,0 @@
-Rechercher les articles sans déclinaison
-
-Il existe deux méthodes, l'une avec "IN", l'autre avec "EXISTS".
-
-Ecrire les deux deux SELECT dans spufi, précédés des SELECT sur chacune des deux tables pour vérification.
-
-
-

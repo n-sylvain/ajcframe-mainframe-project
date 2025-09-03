@@ -1,9 +1,0 @@
-Ecrire une ligne dans la table MARQUE.
-
-Modifier la désignation en supprimant l'initialepar un décalage sur la gauche.
-
-Exemple
-DESIGN devient ESIGN
-
-Rappel :
-SUBSTR(colonne, position-de-depart , longueur )
