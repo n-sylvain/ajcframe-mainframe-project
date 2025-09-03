@@ -11,7 +11,7 @@
 //*                                                         *
 //***********************************************************
 //* Job d'envoi des nouvelles pieces depuis le fichier newparts.ksds 
-//* ver la table PARTS
+//* vers la table PARTS
 //PROCLIB  JCLLIB ORDER=SDJ.FORM.PROCLIB
 //*
 //         SET SYSUID=API4,
