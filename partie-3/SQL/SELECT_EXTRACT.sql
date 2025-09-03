@@ -9,6 +9,7 @@
        D.DNAME, 
        E.LNAME, 
        E.FNAME, 
+       E.COM,
        I.P_NO, 
        P.DESCRIPTION, 
        I.QUANTITY, 

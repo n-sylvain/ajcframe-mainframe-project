@@ -18,7 +18,7 @@
        FILE SECTION.
        FD  EXTRACT-FILE
            RECORDING MODE IS F
-           RECORD CONTAINS 280 CHARACTERS.
+           RECORD CONTAINS 281 CHARACTERS.
        01  EXTRACT-RECORD.
            05 EXT-COMPANY           PIC X(30).
            05 EXT-ADDRESS           PIC X(100).
@@ -30,6 +30,7 @@
            05 EXT-DNAME             PIC X(20).
            05 EXT-LNAME             PIC X(20).
            05 EXT-FNAME             PIC X(20).
+           05 EXT-COM               PIC 9V99.
            05 EXT-P-NO              PIC X(3).
            05 EXT-DESCRIPTION       PIC X(30).
            05 EXT-QUANTITY          PIC 9(2).
@@ -82,6 +83,7 @@
                    D.DNAME,
                    E.LNAME,
                    E.FNAME,
+                   E.COM,
                    I.P_NO,
                    P.DESCRIPTION,
                    I.QUANTITY,
@@ -109,6 +111,7 @@
         77 WS-DNAME          PIC X(20).
         77 WS-LNAME          PIC X(20).
         77 WS-FNAME          PIC X(20).
+        77 WS-COM            PIC S9(1)V9(2) USAGE COMP-3.
         77 WS-P-NO           PIC X(3).
         77 WS-DESCRIPTION    PIC X(30).
         77 WS-QUANTITY       PIC S9(2)V USAGE COMP-3.
@@ -124,6 +127,7 @@
         77 ED-O-NO           PIC 999.
         77 ED-QUANTITY       PIC 99.
         77 ED-PRICE          PIC 9(3),99.
+        77 ED-COM            PIC 9,99.
         77 ED-LINE-TOTAL     PIC 9(5),99.
 
        PROCEDURE DIVISION.
@@ -183,6 +187,7 @@
                     :WS-DNAME,
                     :WS-LNAME,
                     :WS-FNAME,
+                    :WS-COM,
                     :WS-P-NO,
                     :WS-DESCRIPTION,
                     :WS-QUANTITY,
@@ -215,6 +220,9 @@
 
            MOVE WS-PRICE TO ED-PRICE
            MOVE ED-PRICE TO EXT-PRICE
+
+           MOVE WS-COM TO ED-COM
+           MOVE ED-COM TO EXT-COM
 
            MOVE WS-LINE-TOTAL TO ED-LINE-TOTAL
            MOVE ED-LINE-TOTAL TO EXT-LINE-TOTAL
