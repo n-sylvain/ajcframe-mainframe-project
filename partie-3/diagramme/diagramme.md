@@ -1,0 +1,68 @@
+### Diagramme fonctionnel – Génération des factures
+
+```mermaid
+graph TB
+    subgraph "Base de données DB2"
+        DB[(API6.CUSTOMERS<br/>API6.ORDERS<br/>API6.EMPLOYEES<br/>API6.DEPTS<br/>API6.ITEMS<br/>API6.PRODUCTS)]
+    end
+    
+    subgraph "Étape 1 : Extraction"
+        EXTRACT[Programme EXTRACT<br/>COBOL/DB2]
+        SQL[Requête SQL<br/>Jointures multiples]
+        EXTRACTFILE[(API6.PROJET.EXTRACT.DATA<br/>280 caractères/enreg)]
+    end
+    
+    subgraph "Étape 2 : Génération"
+        FACTURE[Programme FACTURE<br/>COBOL Batch]
+        DATEFMT[Sous-programme DATEFMT<br/>Formatage dates]
+        SYSIN[Paramètre TVA<br/>via SYSIN]
+        FACTURESFILE[(API6.PROJET.FACTURES.DATA<br/>132 caractères/enreg)]
+    end
+    
+    subgraph "JCL de contrôle"
+        JEXTRACT[JEXTRACT.jcl<br/>Compilation + Exécution]
+        JCDTFM[JCDTFM.jcl<br/>Compilation DATEFMT]
+        JCFACT[JCFACT.jcl<br/>Compilation FACTURE]
+        JEFACT[JEFACT.jcl<br/>Exécution FACTURE]
+    end
+    
+    subgraph "Données de sortie"
+        INVOICE1[Facture 101<br/>ABC Company<br/>2 produits]
+        INVOICE2[Facture 102<br/>XYZ Corporation<br/>1 produit]
+        INVOICE3[Facture 103<br/>LMN Enterprises<br/>1 produit]
+    end
+    
+    %% Flux principal
+    DB --> SQL
+    SQL --> EXTRACT
+    EXTRACT --> EXTRACTFILE
+    EXTRACTFILE --> FACTURE
+    SYSIN --> FACTURE
+    FACTURE --> DATEFMT
+    DATEFMT --> FACTURE
+    FACTURE --> FACTURESFILE
+    
+    %% Génération des factures individuelles
+    FACTURESFILE --> INVOICE1
+    FACTURESFILE --> INVOICE2
+    FACTURESFILE --> INVOICE3
+    
+    %% Contrôle JCL
+    JEXTRACT --> EXTRACT
+    JCDTFM --> DATEFMT
+    JCFACT --> FACTURE
+    JEFACT --> FACTURE
+    
+    %% Styling
+    classDef database fill:#e1f5fe
+    classDef program fill:#f3e5f5
+    classDef file fill:#e8f5e8
+    classDef jcl fill:#fff3e0
+    classDef output fill:#fce4ec
+    
+    class DB database
+    class EXTRACT,FACTURE,DATEFMT program
+    class EXTRACTFILE,FACTURESFILE file
+    class JEXTRACT,JCDTFM,JCFACT,JEFACT jcl
+    class INVOICE1,INVOICE2,INVOICE3 output
+```

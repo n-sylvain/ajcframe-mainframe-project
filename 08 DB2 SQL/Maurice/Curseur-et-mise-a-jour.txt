@@ -1,0 +1,36 @@
+Utiliser un curseur pour les mises à jour
+
+La syntaxe est légèrement différente.
+
+En working
+EXEC SQL 
+	DECLARE nom_du_curseur CURSOR FOR
+		SELECT ....   
+		FROM nom_table 
+		FOR UPDATE col1, col2, ...
+END-EXEC.
+
+En procédure
+EXEC SQL 
+	UPDATE nom_table
+		SET col1 
+		  , col2 
+		  ...
+		WHERE CURRENT OF nom_du_curseur
+END-EXEC.
+************************
+La ligne courante peut être supprimée par l'ordre 
+
+EXEC SQL 
+	DELETE
+	FROM nom_table
+		WHERE CURRENT OF nom_du_curseur
+END-EXEC.
+
+
+ ************************
+ Remarque 
+ 
+ Cet ordre CUSOR ne peut référencer qu'une seule table et pas plus
+ Il ne peut pas référencer une fonction colonne
+ Il ne peut pas utiliser les clauses DISTINCT, UNION, GROUP BY et ORDER BY

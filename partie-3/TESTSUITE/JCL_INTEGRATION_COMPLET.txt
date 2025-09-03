@@ -1,0 +1,63 @@
+//INTEGTST JOB (ACCT#),'TEST INTEGRATION',MSGCLASS=H,REGION=4M,
+//          CLASS=A,MSGLEVEL=(1,1),NOTIFY=&SYSUID,COND=(4,LT)
+//*
+//* COMPILATION DU TEST D'INTEGRATION
+//*
+//COMPINT  EXEC IGYWCL,PARM.COBOL=(NODYNAM,OBJECT,LIB,TEST,APOST)
+//COBOL.SYSIN  DD DSN=API8.SOURCE.COBOL(INTEGTEST),DISP=SHR
+//COBOL.SYSLIB DD DSN=CEE.SCEESAMP,DISP=SHR
+//             DD DSN=API8.SOURCE.COPY,DISP=SHR
+//LKED.SYSLMOD DD DSN=API8.COBOL.LOAD,DISP=(SHR,KEEP,KEEP)
+//LKED.SYSIN DD *
+ NAME INTEGTEST(R)
+/*
+//*
+//* EXECUTION DU WORKFLOW COMPLET AVEC TEST
+//*
+//PREP     EXEC PGM=IEBGENER
+//SYSPRINT DD SYSOUT=*
+//SYSIN    DD DUMMY
+//SYSUT1   DD *
+15.5
+/*
+//SYSUT2   DD DSN=&&TVARATE,DISP=(NEW,PASS),
+//            SPACE=(TRK,(1,1)),DCB=(RECFM=FB,LRECL=80,BLKSIZE=800)
+//*
+//* SIMULATION DE L'EXTRACTION (NORMALEMENT FAIT PAR EXTRACT)
+//*
+//MKEXT    EXEC PGM=IEBGENER
+//SYSPRINT DD SYSOUT=*
+//SYSIN    DD DUMMY
+//SYSUT1   DD *
+ABC Company                   123 Main Street                                                                                     New York            10001NY1012022-02-15Sales               Doe                 John                P01Mouse Bluetooth               10025990025990
+ABC Company                   123 Main Street                                                                                     New York            10001NY1012022-02-15Sales               Doe                 John                P03Router                        15035750053625
+XYZ Corporation               456 Elm Street                                                                                      Los Angeles         90001CA1022018-03-20Marketing           Smith               Alice               P03Router                        10035750035750
+LMN Enterprises               789 Oak Avenue                                                                                      Chicago             60601IL1032020-02-25Engineering         Johnson             David               P05External Hard Drive           10050250050250
+/*
+//SYSUT2   DD DSN=&&EXTRACT,DISP=(NEW,PASS),
+//            SPACE=(TRK,(1,1)),DCB=(RECFM=FB,LRECL=280,BLKSIZE=2800)
+//*
+//* GENERATION DES FACTURES
+//*
+//GENFACT  EXEC PGM=FACTURE
+//STEPLIB  DD DSN=API8.COBOL.LOAD,DISP=SHR
+//EXTRACT  DD DSN=&&EXTRACT,DISP=(OLD,PASS)
+//FACTURES DD DSN=&&FACTURES,DISP=(NEW,PASS),
+//            SPACE=(TRK,(5,5)),DCB=(RECFM=FB,LRECL=132,BLKSIZE=1320)
+//SYSIN    DD DSN=&&TVARATE,DISP=(OLD,PASS)
+//SYSOUT   DD SYSOUT=*
+//*
+//* EXECUTION DU TEST D'INTEGRATION
+//*
+//RUNINTEG EXEC PGM=INTEGTEST
+//STEPLIB  DD DSN=API8.COBOL.LOAD,DISP=SHR
+//FACTURES DD DSN=&&FACTURES,DISP=(OLD,PASS)
+//SYSOUT   DD SYSOUT=*
+//*
+//* AFFICHAGE DU CONTENU DES FACTURES POUR VERIFICATION MANUELLE
+//*
+//LISTFACT EXEC PGM=IEBGENER
+//SYSPRINT DD SYSOUT=*
+//SYSIN    DD DUMMY
+//SYSUT1   DD DSN=&&FACTURES,DISP=(OLD,DELETE)
+//SYSUT2   DD SYSOUT=*

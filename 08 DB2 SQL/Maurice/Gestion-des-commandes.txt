@@ -1,0 +1,45 @@
+Gestion des commandes
+
+Créer un table entête de commande 
+et une table ligne de commande.
+
+La table entête de commande  :
+- son identifiant est un nombre comp-3 en cobol sur 3 positions
+- le nom du client est en cobol sur X(10).
+Il n'est pas géré dans les autres tables
+- la date de commande a  un format DB2 date.
+- la date de livraison prévue est 5 jours après la date de commande 
+
+La table ligne de commande  :
+- son identifiant est l'identifiant de l'entête de commande et du numéro de ligne.
+Le premier numéro est 1 et au départ il n'y a pas de trou
+- l'identifiant de la déclinaison (id de l'article + id de la déclinaison)
+- la quantité demandée, sans décimale, en comp-3 en cobol
+
+Quand on supprime une occurrence dans l'entête de commande, toutes les lignes sont supprimées.
+Quand on supprime une occurrence dans la table déclinaison, elle ne doit apparaitre dans la table des lignes commande.
+
+
+*********************
+A faire
+
+Créer les tables et les insertions.
+Vérifier avec spufi le contenu des tables et l'impossibilité de supprimer une déclinaison si elle est commandée.
+Avec spufi Ajouter 7 jour à  la date de livraison prévue
+Exemple : DATLIV = DATLIV + 7 DAYS
+
+Vérifier avec un SELECT dans SPUFI
+
+Afficher la valorisation des commandes, par ligne de commandes et par commande
+
+Afficher les déclinaisons commandées sur plusieurs lignes de la même commande et de commandes différentes
+Remarque :
+il faut utiliser une jointure d'une table avec elle-même en ajoutant un alias pour les distinguer
+Exemple  FROM ARTICLE A, ARTICLE B WHERE A.DESIGNATION = B.DESIGNATION
+
+ 
+
+  
+
+
+

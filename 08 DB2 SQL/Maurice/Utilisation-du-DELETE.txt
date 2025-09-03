@@ -1,0 +1,11 @@
+Ecrire une ligne dans la table MARQUE.
+
+Vérifier avec spufi par un SELECT
+
+Supprimer la ligne avec SPUFI
+
+
+Vérifier avec spufi par un SELECT
+ 
+ 
+Ecrire chacun ce ces ordres dans un memebre TSO différent

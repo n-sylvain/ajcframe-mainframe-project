@@ -1,0 +1,67 @@
+      ******************************************************************
+      * DCLGEN TABLE(API6.EMPLOYEES)                                   *
+      *        LIBRARY(API6.SOURCE.DCLGEN(EMP))                        *
+      *        LANGUAGE(COBOL)                                         *
+      *        NAMES(EMP-)                                             *
+      *        STRUCTURE(ST-EMP)                                       *
+      *        QUOTE                                                   *
+      *        COLSUFFIX(YES)                                          *
+      *        INDVAR(YES)                                             *
+      * ... IS THE DCLGEN COMMAND THAT MADE THE FOLLOWING STATEMENTS   *
+      ******************************************************************
+           EXEC SQL DECLARE API6.EMPLOYEES TABLE
+           ( E_NO                           DECIMAL(2, 0) NOT NULL,
+             DEPT                           DECIMAL(4, 0) NOT NULL,
+             LNAME                          VARCHAR(20) NOT NULL,
+             FNAME                          VARCHAR(20),
+             STREET                         VARCHAR(100) NOT NULL,
+             CITY                           VARCHAR(20) NOT NULL,
+             ST                             CHAR(2) NOT NULL,
+             ZIP                            CHAR(5) NOT NULL,
+             PAYRATE                        DECIMAL(5, 2) NOT NULL,
+             COM                            DECIMAL(2, 2)
+           ) END-EXEC.
+      ******************************************************************
+      * COBOL DECLARATION FOR TABLE API6.EMPLOYEES                     *
+      ******************************************************************
+       01  ST-EMP.
+      *                       E_NO
+           10 EMP-E-NO             PIC S9(2)V USAGE COMP-3.
+      *                       DEPT
+           10 EMP-DEPT             PIC S9(4)V USAGE COMP-3.
+           10 EMP-LNAME.
+      *                       LNAME LENGTH
+              49 EMP-LNAME-LEN     PIC S9(4) USAGE COMP.
+      *                       LNAME
+              49 EMP-LNAME-TEXT    PIC X(20).
+           10 EMP-FNAME.
+      *                       FNAME LENGTH
+              49 EMP-FNAME-LEN     PIC S9(4) USAGE COMP.
+      *                       FNAME
+              49 EMP-FNAME-TEXT    PIC X(20).
+           10 EMP-STREET.
+      *                       STREET LENGTH
+              49 EMP-STREET-LEN    PIC S9(4) USAGE COMP.
+      *                       STREET
+              49 EMP-STREET-TEXT   PIC X(100).
+           10 EMP-CITY.
+      *                       CITY LENGTH
+              49 EMP-CITY-LEN      PIC S9(4) USAGE COMP.
+      *                       CITY
+              49 EMP-CITY-TEXT     PIC X(20).
+      *                       ST
+           10 EMP-ST               PIC X(2).
+      *                       ZIP
+           10 EMP-ZIP              PIC X(5).
+      *                       PAYRATE
+           10 EMP-PAYRATE          PIC S9(3)V9(2) USAGE COMP-3.
+      *                       COM
+           10 EMP-COM              PIC SV9(2) USAGE COMP-3.
+      ******************************************************************
+      * INDICATOR VARIABLE STRUCTURE                                   *
+      ******************************************************************
+       01  IEMPLOYEES.
+           10 INDSTRUC           PIC S9(4) USAGE COMP OCCURS 10 TIMES.
+      ******************************************************************
+      * THE NUMBER OF COLUMNS DESCRIBED BY THIS DECLARATION IS 10      *
+      ******************************************************************

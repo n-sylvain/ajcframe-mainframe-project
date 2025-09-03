@@ -1,0 +1,10 @@
+//API4MAP JOB (ACCT#),'DENIS',MSGLEVEL=(1,1),
+//         NOTIFY=&SYSUID,CLASS=A,MSGCLASS=H,TIME=(0,15),COND=(4,LT)
+//         JCLLIB  ORDER=SDJ.FORM.PROCLIB
+//* Pour compiler le programme de l'IHM CICS d'insertion de nouvelles 
+//* pieces dans le fichier newparts.ksds
+//COMPCIC  EXEC COMPCICS,NOMPGM=A5PART
+//STEPCIC.SYSIN    DD DSN=&SYSUID..SOURCE.COBOL(&NOMPGM),DISP=SHR
+//STEPCOB.SYSLIB   DD
+//                 DD
+//                 DD DSN=&SYSUID..SOURCE.COPY,DISP=SHR
